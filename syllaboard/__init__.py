@@ -77,6 +77,7 @@ def register_error_handlers(app):
 def register_commands(app):
     @app.cli.command()
     def init():
+        '''Initialize database'''
         click.echo('Initializing the database...')
         db.create_all()
 
