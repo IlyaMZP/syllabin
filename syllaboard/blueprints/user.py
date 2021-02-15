@@ -1,4 +1,5 @@
-from flask import render_template, flash, redirect, request, url_for, Blueprint
+import os
+from flask import render_template, flash, redirect, request, url_for, Blueprint, current_app
 from flask_login import login_required, current_user
 
 from syllaboard.components import db, avatars
@@ -21,6 +22,8 @@ def upload_avatar():
     if form.validate_on_submit():
         image = form.image.data
         filename = avatars.save_avatar(image)
+        if current_user.pfp_raw:
+            os.remove(os.path.join(current_app.config['AVATARS_SAVE_PATH'], current_user.pfp_raw))
         current_user.pfp_raw = filename
         db.session.commit()
         flash('Image uploaded, please crop.', 'success')
@@ -37,6 +40,9 @@ def crop_avatar():
         w = form.w.data
         h = form.h.data
         filenames = avatars.crop_avatar(current_user.pfp_raw, x, y, w, h)
+        os.remove(os.path.join(current_app.config['AVATARS_SAVE_PATH'], current_user.pfp_s))
+        os.remove(os.path.join(current_app.config['AVATARS_SAVE_PATH'], current_user.pfp_m))
+        os.remove(os.path.join(current_app.config['AVATARS_SAVE_PATH'], current_user.pfp_l))
         current_user.pfp_s = filenames[0]
         current_user.pfp_m = filenames[1]
         current_user.pfp_l = filenames[2]
