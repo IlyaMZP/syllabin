@@ -10,7 +10,6 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
     SYLLABIN_ADMIN_EMAIL = 'ilya@mzp.icu'
-    SYLLABIN_SLOW_QUERY_THRESHOLD = 1
     SYLLABIN_UPLOAD_PATH = os.path.join(basedir, 'uploads')
     SYLLABIN_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
     SESSION_COOKIE_SAMESITE = 'Strict'
