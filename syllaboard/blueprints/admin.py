@@ -5,9 +5,18 @@ from flask_wtf import FlaskForm
 from syllaboard.components import db
 from syllaboard.models import Group, User, Role
 from syllaboard.decorators import admin_required
+from syllaboard.notifications import notify_group
 
 
 admin_bp = Blueprint('admin', __name__)
+
+
+@admin_bp.route('/test/<string:group>')
+@login_required
+@admin_required
+def test(group):
+    notify_group("hello", group)
+    return redirect(url_for('main.index'))
 
 
 @admin_bp.route('/manage_users')

@@ -20,6 +20,7 @@ class BaseConfig(object):
     AVATARS_SAVE_PATH = os.path.join(SYLLABOARD_UPLOAD_PATH, 'avatars')
     AVATARS_SIZE_TUPLE = (20, 100, 200)
     AVATARS_CROP_BASE_WIDTH = 320
+    SYLLABOARD_PUSH_PRIVATE_KEY = "7EOmZ05femDYbUH_6sx3ySEytPlo9MW3s0YgkvJio1k"
 
 
 class DevelopmentConfig(BaseConfig):

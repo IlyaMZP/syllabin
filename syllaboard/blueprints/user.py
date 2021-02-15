@@ -1,9 +1,10 @@
-import os, json
+import os
 from flask import render_template, flash, redirect, request, url_for, Blueprint, current_app
 from flask_login import login_required, current_user
 
 from syllaboard.components import db, avatars, csrf
 from syllaboard.forms.user import UploadAvatarForm, CropAvatarForm
+from syllaboard.models import Notification
 
 
 user_bp = Blueprint('user', __name__)
@@ -15,10 +16,13 @@ user_bp = Blueprint('user', __name__)
 def notification_token():
     if request.is_json:
         data = request.json
-        json_data = json.loads(data)
-        endpoint = json_data["endpoint"]
-        if current_user.notification_endpoint != endpoint:
-            current_user.notification_endpoint = endpoint
+        notification = Notification.query.filter_by(subscription_info=data).first()
+        if not notification:
+            if current_user.group:
+                notification = Notification(group_id=current_user.group.id, subscription_info=data)
+            else:
+                notification = Notification(subscription_info=data)
+            db.session.add(notification)
             db.session.commit()
     return 'ok'
 

@@ -48,7 +48,7 @@ if (workbox) {
     var options = {
         body: `${event.data.text()}`,
         icon: "/static/images/icons/icon-192x192.png",
-        badge: "/images/badge.png"
+        badge: "/static/images/badge.webp"
     };
     event.waitUntil(self.registration.showNotification(title, options))
   })

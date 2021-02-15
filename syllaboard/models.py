@@ -25,6 +25,14 @@ class Subject(db.Model):
 class Group(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', back_populates='group')
+
+
+class Notification(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    subscription_info = db.Column(db.String(512), unique=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))
+    group = db.relationship('Group')
 
 
 class Timetable(db.Model):
@@ -71,11 +79,10 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean, default=True)
     enrolled_at = db.Column(db.DateTime())
     expelled_at = db.Column(db.DateTime())
-    notification_endpoint = db.Column(db.String(256))
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     role = db.relationship('Role', back_populates='users')
     group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))
-    group = db.relationship('Group')
+    group = db.relationship('Group', back_populates='users')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
