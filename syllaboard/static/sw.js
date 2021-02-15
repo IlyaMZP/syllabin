@@ -41,8 +41,18 @@ if (workbox) {
       ],
     }),
   );
-
-/*  workbox.routing.registerRoute(
+  self.addEventListener('push', event => {
+    console.log('[Service Worker] Push Received.');
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+    const title = "Syllaboard Notification";
+    var options = {
+        body: `${event.data.text()}`,
+        icon: "/static/images/icons/icon-192x192.png",
+        badge: "/images/badge.png"
+    };
+    event.waitUntil(self.registration.showNotification(title, options))
+  })
+  workbox.routing.registerRoute(
     new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
     new workbox.strategies.CacheFirst({
       cacheName: 'googleapis',
@@ -53,7 +63,7 @@ if (workbox) {
       ],
     }),
   );
-*/
+
   workbox.core.skipWaiting();
   workbox.core.clientsClaim();
 } else {
