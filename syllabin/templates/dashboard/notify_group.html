@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_breadcrumb %}
+
+{% block title %}Notify Group{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>Add entry to the timetable</h4></div>
+                    <div class="card-body">
+
+<form autocomplete="off" action="{{ url_for('dash.send_notification') }}" method="POST">
+{{ form.csrf_token }}
+<div class="form-group">
+{% if current_user.is_admin %}
+    <label for="group_input">Select group</label>
+    <select id="group_input" class="form-control" name="group">
+      <option value="">Everyone</option>
+{% if groups %}
+      {% for key in groups %}
+      <option>{{ key.name }}</option>
+      {% endfor %}
+{% endif %}
+    </select>
+{% endif %}
+    <div class="mt-1">
+        <input id="notification_text" type="text" name="notification_text" placeholder="Notification Message">
+    </div>
+  <input type="submit" class="mt-3" value="Send Notification">
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+    <script>
+    $('#group_input').select2();
+    </script>
+{% endblock %}
+{% block breadcrumbs %}
+{{ render_breadcrumb('dash.index', "Dashboard") }}
+{% endblock breadcrumbs %}

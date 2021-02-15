@@ -7,6 +7,13 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-8">
+{% if announcements %}
+<h3>Announcements:
+{% for announcement in announcements %}
+{{ announcement.message }} | 
+{% endfor %}
+</h3>
+{% endif %}
 {% if entries %}
             <div class="card-header"><h4>Timetable for {{ entries[0][0].weekday }}</h4></div>
                 <div class="card-body">
@@ -16,7 +23,6 @@
 {% endfor %}
 {% endif %}
 		        </div>
-
 {% if useragent_firefox %}
 <h2>Looks like you're using firefox</h2>
 Some features, like notifications, won't work with firefox browser.
