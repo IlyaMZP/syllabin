@@ -9,18 +9,18 @@ class BaseConfig(object):
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
-    SYLLABOARD_ADMIN_EMAIL = 'ilya@mzp.icu'
-    SYLLABOARD_SLOW_QUERY_THRESHOLD = 1
-    SYLLABOARD_UPLOAD_PATH = os.path.join(basedir, 'uploads')
-    SYLLABOARD_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
+    SYLLABIN_ADMIN_EMAIL = 'ilya@mzp.icu'
+    SYLLABIN_SLOW_QUERY_THRESHOLD = 1
+    SYLLABIN_UPLOAD_PATH = os.path.join(basedir, 'uploads')
+    SYLLABIN_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
     SESSION_COOKIE_SAMESITE = 'Strict'
     SESSION_COOKIE_SECURE = True
-    SYLLABOARD_DOMAIN_NAME = 'mzp.icu'
+    SYLLABIN_DOMAIN_NAME = 'mzp.icu'
     MAX_CONTENT_LENGTH = 3 * 1024 * 1024
-    AVATARS_SAVE_PATH = os.path.join(SYLLABOARD_UPLOAD_PATH, 'avatars')
+    AVATARS_SAVE_PATH = os.path.join(SYLLABIN_UPLOAD_PATH, 'avatars')
     AVATARS_SIZE_TUPLE = (20, 100, 200)
     AVATARS_CROP_BASE_WIDTH = 320
-    SYLLABOARD_PUSH_PRIVATE_KEY = "7EOmZ05femDYbUH_6sx3ySEytPlo9MW3s0YgkvJio1k"
+    SYLLABIN_PUSH_PRIVATE_KEY = "7EOmZ05femDYbUH_6sx3ySEytPlo9MW3s0YgkvJio1k"
 
 
 class DevelopmentConfig(BaseConfig):

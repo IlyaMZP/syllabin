@@ -1,7 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 
-from syllaboard.components import db
-from syllaboard.models import User, Role, Group
+from syllabin.components import db
+from syllabin.models import User, Role, Group
 
 
 def add_admin():

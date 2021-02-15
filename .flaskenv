@@ -1,2 +1,2 @@
-FLASK_APP=syllaboard
+FLASK_APP=syllabin
 FLASK_ENV=development

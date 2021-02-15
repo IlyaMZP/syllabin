@@ -5,16 +5,16 @@ from flask import Flask, render_template, request
 from flask_login import current_user
 from flask_wtf.csrf import CSRFError
 
-from syllaboard.blueprints.main import main_bp
-from syllaboard.blueprints.auth import auth_bp
-from syllaboard.blueprints.api import api_bp
-from syllaboard.blueprints.admin import admin_bp
-from syllaboard.blueprints.user import user_bp
-from syllaboard.blueprints.dashboard import dash_bp
-from syllaboard.components import csrf, db, login_manager, avatars, toolbar
-from syllaboard.models import User, Role
-from syllaboard.settings import config
-from syllaboard.forger import add_admin
+from syllabin.blueprints.main import main_bp
+from syllabin.blueprints.auth import auth_bp
+from syllabin.blueprints.api import api_bp
+from syllabin.blueprints.admin import admin_bp
+from syllabin.blueprints.user import user_bp
+from syllabin.blueprints.dashboard import dash_bp
+from syllabin.components import csrf, db, login_manager, avatars, toolbar
+from syllabin.models import User, Role
+from syllabin.settings import config
+from syllabin.forger import add_admin
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -23,7 +23,7 @@ def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'development')
 
-    app = Flask('syllaboard')
+    app = Flask('syllabin')
     app.config.from_object(config[config_name])
 
     register_extensions(app)

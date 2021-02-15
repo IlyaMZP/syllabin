@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from flask_avatars import Identicon
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from syllaboard.components import db
+from syllabin.components import db
 
 
 class Professor(db.Model):

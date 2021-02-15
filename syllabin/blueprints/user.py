@@ -2,9 +2,9 @@ import os
 from flask import render_template, flash, redirect, request, url_for, Blueprint, current_app
 from flask_login import login_required, current_user
 
-from syllaboard.components import db, avatars, csrf
-from syllaboard.forms.user import UploadAvatarForm, CropAvatarForm
-from syllaboard.models import Notification
+from syllabin.components import db, avatars, csrf
+from syllabin.forms.user import UploadAvatarForm, CropAvatarForm
+from syllabin.models import Notification
 
 
 user_bp = Blueprint('user', __name__)

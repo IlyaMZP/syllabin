@@ -2,7 +2,7 @@ import os
 
 from flask import render_template, flash, redirect, url_for, current_app, \
     send_from_directory, request, abort, Blueprint, make_response
-from syllaboard.utils import getTodayEntries
+from syllabin.utils import getTodayEntries
 from flask_login import login_required, current_user
 #from sqlalchemy.sql.expression import func
 
