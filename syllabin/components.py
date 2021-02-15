@@ -33,7 +33,7 @@ def _set_sqlite_pragma(dbapi_connection, connection_record):
 
 @login_manager.user_loader
 def load_user(user_id):
-    from syllaboard.models import User
+    from syllabin.models import User
     user = User.query.get(int(user_id))
     return user
 

@@ -3,10 +3,10 @@
 from flask import jsonify, Blueprint
 from flask_login import login_required
 
-from syllaboard.components import db
-#from syllaboard.forms.dashboard import AddSubjectForm
-from syllaboard.models import User, Group, Subject, Room, Professor
-#from syllaboard.utils import redirect_back
+from syllabin.components import db
+#from syllabin.forms.dashboard import AddSubjectForm
+from syllabin.models import User, Group, Subject, Room, Professor
+#from syllabin.utils import redirect_back
 
 api_bp = Blueprint('api', __name__)
 

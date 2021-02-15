@@ -2,9 +2,9 @@ from flask import render_template, flash, redirect, request, url_for, Blueprint
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 
-from syllaboard.components import db
-from syllaboard.models import Group, Subject, Room, Professor, Timetable, User
-from syllaboard.decorators import headman_required
+from syllabin.components import db
+from syllabin.models import Group, Subject, Room, Professor, Timetable, User
+from syllabin.decorators import headman_required
 
 dash_bp = Blueprint('dash', __name__)
 

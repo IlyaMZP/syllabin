@@ -1,10 +1,10 @@
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user, login_fresh, confirm_login
 
-from syllaboard.components import db
-from syllaboard.forms.auth import LoginForm
-from syllaboard.models import User
-from syllaboard.utils import redirect_back
+from syllabin.components import db
+from syllabin.forms.auth import LoginForm
+from syllabin.models import User
+from syllabin.utils import redirect_back
 
 auth_bp = Blueprint('auth', __name__)
 

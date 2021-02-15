@@ -3,7 +3,7 @@ from threading import Thread
 from pywebpush import webpush, WebPushException
 from flask import current_app
 
-from syllaboard.models import User, Group, Notification
+from syllabin.models import User, Group, Notification
 
 
 class FlaskThread(Thread):
@@ -34,7 +34,7 @@ def notify_group_thread(text, group_name):
 	            webpush(
 		            subscription_info=json.loads(notification.subscription_info),
 		            data=text,
-		            vapid_private_key=current_app.config['SYLLABOARD_PUSH_PRIVATE_KEY'],
+		            vapid_private_key=current_app.config['SYLLABIN_PUSH_PRIVATE_KEY'],
 		            vapid_claims={
 		            "sub": "mailto:ilya@mzp.icu",
 		            }

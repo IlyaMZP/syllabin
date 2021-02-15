@@ -44,7 +44,7 @@ if (workbox) {
   self.addEventListener('push', event => {
     console.log('[Service Worker] Push Received.');
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-    const title = "Syllaboard Notification";
+    const title = "Syllabin Notification";
     var options = {
         body: `${event.data.text()}`,
         icon: "/static/images/icons/icon-192x192.png",

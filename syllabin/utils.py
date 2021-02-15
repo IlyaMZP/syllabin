@@ -16,10 +16,10 @@ from flask_login import current_user
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from syllaboard.components import db
-from syllaboard.models import User, Group, Subject, Room, Professor, Timetable
+from syllabin.components import db
+from syllabin.models import User, Group, Subject, Room, Professor, Timetable
 """
-from syllaboard.settings import Operations
+from syllabin.settings import Operations
 
 
 def generate_token(user, operation, expire_in=None, **kwargs):
