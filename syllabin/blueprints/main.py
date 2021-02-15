@@ -11,10 +11,15 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
+    useragent_firefox = None
+    user_agent = request.headers.get('User-Agent')
+    if "Firefox" in user_agent:
+        useragent_firefox = 1
+    print(user_agent)
     if current_user.is_authenticated:
-        return render_template('main/index.html', entries=getTodayEntries())
+        return render_template('main/index.html', entries=getTodayEntries(), useragent_firefox=useragent_firefox)
     else:
-        return render_template('main/index.html')
+        return render_template('main/index.html', useragent_firefox=useragent_firefox)
 
 
 @main_bp.route('/avatars/<path:filename>')
