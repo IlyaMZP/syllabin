@@ -28,7 +28,7 @@
       <option>Create group before adding entries</option>
 {% endif %}
     </select>
-    <div class="autocomplete">
+    <div class="autocomplete mt-1">
         <input id="subj_inp" type="text" name="subject" placeholder="Subject">
     </div>
     <div class="autocomplete">
@@ -38,7 +38,7 @@
         <input id="room_inp" type="text" name="room" placeholder="Room">
     </div>
 
-    <div class="form-group form-inline" style="margin-bottom:4px">
+    <div class="form-group form-inline mb-1">
     <label for="weeks_input">Lesson numbers</label>
     <select id="lessons_input" name="lessons[]" multiple="multiple" style="width:100%">
       <option value="1">1 (9:00 - 10:30)</option>
@@ -49,14 +49,16 @@
     </select>
     </div>
 
-    <div class="form-group form-inline" style="margin-bottom:4px">
+    <div class="form-group form-inline mb-1">
     <label for="weeks_input">Week numbers (when lesson occurs)</label>
     <select id="weeks_input" class="form-control" name="weeks[]" multiple="multiple">
       {% for week in range(1,20) %}
       <option>{{ week }}</option>
       {% endfor %}
     </select>
+    <button class="btn btn-outline-secondary mt-1" type="button" id="dateinput_btn">Date Input</button>
     </div>
+
     <label for="day_input">Day of the week</label>
     <select id="day_input" class="form-control" name="day">
       {% for key in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
@@ -64,7 +66,7 @@
       {% endfor %}
     </select>
   </div>
-  <input type="submit"  style="margin-top:8px" value="Add entry">
+  <input type="submit" class="mt-3" value="Add entry">
 </form>
 
 </div>
@@ -87,6 +89,11 @@
     $('#weeks_input').select2();
     $('#lessons_input').select2();
     $('#group_input').select2();
+    $('#dateinput_btn').click(function() {
+        $('#weeks_input').select2('destroy');
+        $('#weeks_input').replaceWith('<br><input type="date" id="weeks_input" name="date">');
+        $('#dateinput_btn').remove();
+    });
     </script>
 {% endblock %}
 {% block breadcrumbs %}

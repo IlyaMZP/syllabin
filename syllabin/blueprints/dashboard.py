@@ -1,3 +1,4 @@
+import datetime
 from flask import render_template, flash, redirect, request, url_for, Blueprint
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
@@ -5,6 +6,7 @@ from flask_wtf import FlaskForm
 from syllabin.components import db
 from syllabin.models import Group, Subject, Room, Professor, Timetable, User
 from syllabin.decorators import headman_required
+from syllabin.utils import getCurrentWeek
 
 dash_bp = Blueprint('dash', __name__)
 
@@ -32,6 +34,10 @@ def add_entry():
     form = FlaskForm()
     if form.validate_on_submit():
         weeks = request.form.getlist('weeks[]')
+        if not weeks:
+            date_str = request.form['date']
+            if date_str:
+                weeks = [ str(getCurrentWeek(datetime.datetime.strptime(date_str, '%Y-%m-%d'))) ]
         lessons = request.form.getlist('lessons[]')
         subject = request.form['subject']
         room = request.form['room']
@@ -60,7 +66,9 @@ def add_entry():
             entry = Timetable(weekday=day, week_nums=weeks, lesson_nums=lessons, room_id=room_id.id, subj_id=subject_id.id, group_id=group_id.id, prof_id=professor_id.id)
             db.session.add(entry)
             db.session.commit()
-        flash('Success.', 'info')
+            flash('Success.', 'info')
+        else:
+            flash('Some fields were empty.', 'warning')
         return redirect(url_for('dash.add_entry'))
     return render_template('dashboard/add_entry.html', form=form, groups=Group.query.all())
 
