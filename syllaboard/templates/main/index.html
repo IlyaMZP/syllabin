@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<div class="page-header" style="padding-top:0">
+		<h1 style="margin:0">Home</h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+{% if entries %}
+            <div class="card-header"><h4>Timetable for {{ entries[0][0].weekday }}</h4></div>
+                <div class="card-body">
+{% for entry in entries %}
+{{ entry[1] }} - {{ entry[0].subject.name }}, {{ entry[0].room.name }}, {{ entry[0].professor.name }}
+<br>
+{% endfor %}
+{% endif %}
+
+		        </div>
+        	</div>
+<h4>To-Do:</h4>
+<ul>
+  <li>Push notifications support</li>
+  <li>E-mail support</li>
+  <li>Homework support</li>
+  <li>Messages support</li>
+  <li>Additional interface pages</li>
+  <li>Profile picture upload</li>
+  <li>User BIO support</li>
+  <li>Admin App Settings</li>
+</ul>  
+
+		</div>
+	</div>
+{% endblock %}

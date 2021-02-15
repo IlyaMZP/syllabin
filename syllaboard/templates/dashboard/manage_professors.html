@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<div class="page-header" style="padding-top:0">
+		<h1 style="margin:0">Manage professors</h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-16">
+  <input class="form-control mt-2 mb-2" id="searchInput" type="text" placeholder="Search..">
+{% if professors %}
+<div class="card">
+  <ul id="professorList" class="list-group list-group-flush">
+{% for professor in professors %}
+    <li class="list-group-item">
+{{ professor.name }}
+<br>
+    <div class="btn-group float-end">
+        <a type="button" href="{{ url_for('dash.edit_professor', professor_id=professor.id) }}" class="btn btn-outline-primary">Edit</a>
+        <button type="button" data-uri="{{ url_for('dash.delete_professor', professor_id=professor.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
+    </div>
+    </li>
+{% endfor %}
+  </ul>
+</div>
+{% endif %}
+		</div>
+	</div>
+<div class="modal fade" id="deleteProfessorDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+      </div>
+      <div class="modal-body">
+        This will delete the professor and all timetable entries that reference them.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a type="button" id="delete_btn" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+<script>
+$(document).ready(function(){
+  $(".delete-btn").click(function() {
+    var link = $(this).data('uri');
+    console.log(link);
+    $(".modal-footer #delete_btn").attr("href", link );
+    $("#deleteProfessorDialog").modal("show");
+  });
+  $("#searchInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#professorList li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>Add entry to the timetable</h4></div>
+                    <div class="card-body">
+
+<form autocomplete="off" action="{{ url_for('admin.create_user') }}" method="POST">
+{{ form.csrf_token }}
+<div class="form-group">
+
+    <label for="group_input">User group</label>
+    <select id="group_input" class="form-control" name="group">
+      {% for key in groups %}
+      <option>{{ key.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="role_input">User role</label>
+    <select id="role_input" class="form-control" name="role">
+      {% for key in roles %}
+      <option>{{ key.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <input type="submit"  style="margin-top:8px" value="Add user">
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+    <script>
+    $('#role_input').select2();
+    $('#group_input').select2();
+    </script>
+{% endblock %}

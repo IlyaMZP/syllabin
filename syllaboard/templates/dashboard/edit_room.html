@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>Edit room name</h4></div>
+                    <div class="card-body">
+
+<form autocomplete="off" action="{{ url_for('dash.edit_room', room_id=room.id) }}" method="POST">
+{{ form.csrf_token }}
+<div class="form-group">
+    <div class="autocomplete">
+        <input id="room_inp" type="text" name="room" placeholder="Room" value="{{ room.name }}">
+    </div>
+  </div>
+  <input type="submit"  style="margin-top:4px" value="Apply changes">
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    <script>
+    autocomplete(document.getElementById("room_inp"), 'https://test.mzp.icu/api/rooms');
+    </script>
+{% endblock %}
