@@ -89,6 +89,20 @@
   </div>
 </div>
 </div>
+
+{% if current_user.is_headman %}
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Group Notification</h5>
+    <p class="card-text">Notify groupmates about events.</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('dash.send_notification') }}" class="btn btn-sm btn-outline-secondary">Notify Group</a>
+    </div>
+  </div>
+</div>
+</div>
+{% endif %}
 </div>
 </div>
 {% endblock %}

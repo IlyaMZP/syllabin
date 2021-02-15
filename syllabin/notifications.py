@@ -3,7 +3,8 @@ from threading import Thread
 from pywebpush import webpush, WebPushException
 from flask import current_app
 
-from syllabin.models import User, Group, Notification
+from syllabin.models import User, Group, Notification, Announcement
+from syllabin.components import db
 
 
 class FlaskThread(Thread):
@@ -25,9 +26,13 @@ def notify_group(text, group_name = None):
 def notify_group_thread(text, group_name):
     if group_name is None:
         notifications = Notification.query.all()
+        announcement = Announcement(message=text)
     else:
         group = Group.query.filter_by(name=group_name).first()
         notifications = Notification.query.filter_by(group_id=group.id).all()
+        announcement = Announcement(message=text, group_id=group.id)
+    db.session.add(announcement)
+    db.session.commit()
     for notification in notifications:
         if notification.subscription_info:
             try:

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, timedelta
 
 from flask_login import UserMixin
 from flask_avatars import Identicon
@@ -31,6 +31,14 @@ class Group(db.Model):
 class Notification(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     subscription_info = db.Column(db.String(512), unique=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))
+    group = db.relationship('Group')
+
+
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.Text, nullable=False)
+    expires = db.Column(db.DateTime, default=date.today()+timedelta(days=+1), index=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))
     group = db.relationship('Group')
 

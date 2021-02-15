@@ -5,18 +5,9 @@ from flask_wtf import FlaskForm
 from syllabin.components import db
 from syllabin.models import Group, User, Role
 from syllabin.decorators import admin_required
-from syllabin.notifications import notify_group
 
 
 admin_bp = Blueprint('admin', __name__)
-
-
-@admin_bp.route('/test/<string:group>')
-@login_required
-@admin_required
-def test(group):
-    notify_group("hello", group)
-    return redirect(url_for('main.index'))
 
 
 @admin_bp.route('/manage_users')

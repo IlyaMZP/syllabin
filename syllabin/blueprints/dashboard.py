@@ -7,6 +7,7 @@ from syllabin.components import db
 from syllabin.models import Group, Subject, Room, Professor, Timetable, User
 from syllabin.decorators import headman_required
 from syllabin.utils import getCurrentWeek
+from syllabin.notifications import notify_group
 
 dash_bp = Blueprint('dash', __name__)
 
@@ -268,3 +269,20 @@ def edit_room(room_id):
         flash('Success.', 'info')
         return redirect(url_for('dash.manage_rooms'))
     return render_template('dashboard/edit_room.html', form=form, room=to_edit)
+
+
+@dash_bp.route('/send_notification', methods=['GET', 'POST'])
+@login_required
+@headman_required
+def send_notification():
+    groups = Group.query.all()
+    form = FlaskForm()
+    if form.validate_on_submit():
+        group = request.form['group']
+        text = request.form['notification_text']
+        if group and curren_user.is_admin():
+            notify_group(text, group)
+        else:
+            notify_group(text)
+        flash('Success.', 'info')
+    return render_template('dashboard/notify_group.html', form=form, groups=groups)
