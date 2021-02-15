@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% from 'macros.html' import render_breadcrumb %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Edit Entry{% endblock %}
 {% block head %}
     {{ super() }}
     <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
@@ -94,3 +95,6 @@
     $('#group_input').trigger('change');
     </script>
 {% endblock %}
+{% block breadcrumbs %}
+{{ render_breadcrumb('dash.index', "Dashboard") }}
+{% endblock breadcrumbs %}
