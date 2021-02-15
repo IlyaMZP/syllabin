@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+	<div class="page-header" style="padding-top:0">
+		<h1 style="margin:0">Manage timetable entries</h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-16">
+  <input class="form-control mt-2 mb-2" id="searchInput" type="text" placeholder="Search..">
+{% if entries %}
+<div class="card">
+  <ul id="entryList" class="list-group list-group-flush">
+{% for entry in entries %}
+    <li class="list-group-item">
+{{ entry.weekday }}: {{ entry.subject.name }} Lessons: {{ ','.join(entry.lesson_nums) }}, Room: {{ entry.room.name }}
+<br>
+{{ entry.professor.name }}, {{ entry.group.name }}, ({{ ','.join(entry.week_nums) }})
+    <div class="btn-group float-end">
+        <a type="button" href="{{ url_for('dash.edit_entry', entry_id=entry.id) }}" class="btn btn-outline-primary">Edit</a>
+        <button type="button" data-uri="{{ url_for('dash.delete_entry', entry_id=entry.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
+    </div>
+    </li>
+{% endfor %}
+  </ul>
+</div>
+{% endif %}
+		</div>
+	</div>
+<div class="modal fade" id="deleteEntryDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+      </div>
+      <div class="modal-body">
+        This will delete timetable entry
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a type="button" id="delete_btn" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+<script>
+$(document).ready(function(){
+  $(".delete-btn").click(function() {
+    var link = $(this).data('uri');
+    console.log(link);
+    $(".modal-footer #delete_btn").attr("href", link );
+    $("#deleteEntryDialog").modal("show");
+  });
+  $("#searchInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#entryList li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+{% endblock %}

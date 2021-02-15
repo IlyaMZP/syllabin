@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% macro render_nav_item(endpoint, text, badge='') %}
+    <li class="nav-item">
+    {% if request.url_rule.endpoint and request.url_rule.endpoint == endpoint %}<a class="nav-link active disabled" href="#">
+       {% else %}
+       <a class="nav-link" href="{{ url_for(endpoint, **kwargs) }}">
+       {% endif %}
+        {{ text }} {% if badge %}<span class="badge badge-light">{{ badge }}</span>{% endif %}
+    </a>
+    </li>
+{% endmacro %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Settings</h1>
+    </div>
+    <div class="row">
+        <ul class="nav nav-tabs">
+            {{ render_nav_item('user.change_avatar', 'Change Avatar') }}
+            {{ render_nav_item('main.index', 'My ass') }}
+        </ul>
+        {% block setting_content %}{% endblock %}
+    </div>
+{% endblock %}

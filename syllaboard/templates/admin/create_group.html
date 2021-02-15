@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>Add group to the database</h4></div>
+                    <div class="card-body">
+
+<form autocomplete="off" action="{{ url_for('admin.create_group') }}" method="POST">
+{{ form.csrf_token }}
+<div class="form-group">
+    <div class="autocomplete">
+        <input id="group_inp" type="text" name="group" placeholder="Group">
+    </div>
+  </div>
+  <input type="submit"  style="margin-top:4px" value="Create Group">
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    <script>
+    autocomplete(document.getElementById("group_inp"), 'https://test.mzp.icu/api/groups');
+    </script>
+{% endblock %}

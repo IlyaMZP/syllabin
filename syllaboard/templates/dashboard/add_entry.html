@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>Add entry to the timetable</h4></div>
+                    <div class="card-body">
+
+<form autocomplete="off" action="{{ url_for('dash.add_entry') }}" method="POST">
+{{ form.csrf_token }}
+<div class="form-group">
+    <label for="group_input">Select group</label>
+    <select id="group_input" class="form-control" name="group">
+{% if groups %}
+      {% for key in groups %}
+      <option>{{ key.name }}</option>
+      {% endfor %}
+{% else %}
+      <option>Create group before adding entries</option>
+{% endif %}
+    </select>
+    <div class="autocomplete">
+        <input id="subj_inp" type="text" name="subject" placeholder="Subject">
+    </div>
+    <div class="autocomplete">
+        <input id="prof_inp" type="text" name="professor" placeholder="Professor">
+    </div>
+    <div class="autocomplete">
+        <input id="room_inp" type="text" name="room" placeholder="Room">
+    </div>
+
+    <div class="form-group form-inline" style="margin-bottom:4px">
+    <label for="weeks_input">Lesson numbers</label>
+    <select id="lessons_input" name="lessons[]" multiple="multiple" style="width:100%">
+      <option value="1">1 (9:00 - 10:30)</option>
+      <option value="2">2 (10:40 - 11:50)</option>
+      <option value="3">3 (12:40 - 14:00)</option>
+      <option value="4">4 (14:10 - 15:30)</option>
+      <option value="5">5 (15:40 - 17:00)</option>
+    </select>
+    </div>
+
+    <div class="form-group form-inline" style="margin-bottom:4px">
+    <label for="weeks_input">Week numbers (when lesson occurs)</label>
+    <select id="weeks_input" class="form-control" name="weeks[]" multiple="multiple">
+      {% for week in range(1,20) %}
+      <option>{{ week }}</option>
+      {% endfor %}
+    </select>
+    </div>
+    <label for="day_input">Day of the week</label>
+    <select id="day_input" class="form-control" name="day">
+      {% for key in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+      <option>{{ key }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <input type="submit"  style="margin-top:8px" value="Add entry">
+</form>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+    <script>
+    autocomplete(document.getElementById("subj_inp"), "{{ url_for('api.subjects') }}");
+    autocomplete(document.getElementById("prof_inp"), "{{ url_for('api.proffessors') }}");
+    autocomplete(document.getElementById("room_inp"), "{{ url_for('api.rooms') }}");
+    $('#day_input').select2();
+    $('#weeks_input').select2();
+    $('#lessons_input').select2();
+    $('#group_input').select2();
+    </script>
+{% endblock %}

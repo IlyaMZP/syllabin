@@ -1,0 +1,11 @@
+### Database ###
+*.accdb
+*.db
+*.dbf
+*.mdb
+*.pdb
+*.sqlite3
+
+!**/__pycache__/
+
+uploads/avatars/*

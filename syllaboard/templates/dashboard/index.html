@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% if current_user.is_admin %}
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Users</h5>
+{% if users %}<h6 class="card-subtitle mb-2 text-muted">{{ users|length }} Users</h6>{% endif %}
+    <p class="card-text">Create and manage users</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('admin.create_user') }}" class="btn btn-sm btn-outline-secondary">Create</a>
+        <a type="button" href="{{ url_for('admin.create_user') }}" class="btn btn-sm btn-outline-secondary">Send Registration Link</a>
+        <a type="button" href="{{ url_for('admin.manage_users') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Groups</h5>
+{% if groups %}<h6 class="card-subtitle mb-2 text-muted">{{ groups|length }} Groups</h6>{% endif %}
+    <p class="card-text">Create and manage groups</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('admin.create_group') }}" class="btn btn-sm btn-outline-secondary">Create</a>
+        <a type="button" href="{{ url_for('admin.manage_groups') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
+    </div>
+  </div>
+</div>
+</div>
+{% endif %}
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Subjects</h5>
+{% if subjects %}<h6 class="card-subtitle mb-2 text-muted">{{ subjects|length }} Subjects</h6>{% endif %}
+    <p class="card-text">Manage subjects</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('dash.manage_subjects') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Professors</h5>
+{% if professors %}<h6 class="card-subtitle mb-2 text-muted">{{ professors|length }} Professors</h6>{% endif %}
+    <p class="card-text">Manage professors</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('dash.manage_professors') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Rooms</h5>
+{% if rooms %}<h6 class="card-subtitle mb-2 text-muted">{{ rooms|length }} Rooms</h6>{% endif %}
+    <p class="card-text">Manage rooms</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('dash.manage_rooms') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col" style="min-width:18rem;">
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Timetable entries</h5>
+{% if timetable %}<h6 class="card-subtitle mb-2 text-muted">{{ timetable|length }} Timetable entries</h6>{% endif %}
+    <p class="card-text">Add and manage timetable entries</p>
+    <div class="btn-group">
+        <a type="button" href="{{ url_for('dash.add_entry') }}" class="btn btn-sm btn-outline-secondary">Add</a>
+        <a type="button" href="{{ url_for('dash.manage_entries') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+    <script>
+    autocomplete(document.getElementById("group_inp"), 'https://test.mzp.icu/api/groups');
+    </script>
+{% endblock %}

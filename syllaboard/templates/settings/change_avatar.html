@@ -1,0 +1,92 @@
+{% extends 'settings/base.html' %}
+
+{% block title %}Change Avatar{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='jcrop/css/jquery.Jcrop.min.css') }}">
+{% endblock %}
+
+{% block setting_content %}
+    <div class="card">
+        <h3 class="card-title mt-2">Change Avatar</h3>
+        <div class="card-body">
+            <form action="/user/settings/avatar/upload" method="post" class="form" enctype="multipart/form-data" role="form">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="mb-2 form-group required"><label class="form-control-label" for="image">Upload</label>
+                    <input class="form-control-file" id="image" name="image" required="" type="file">
+                </div>
+                <button class="btn btn-primary btn-md" name="submit" type="submit">Submit</button>
+            </form>
+            <small class="text-muted">PNG or JPG image up to 3MB in size.</small>
+        </div>
+        <div class="card-body">
+            {{ avatars.crop_box('main.get_avatar', current_user.pfp_raw) }}
+            {{ avatars.preview_box('main.get_avatar', current_user.pfp_raw) }}
+        </div>
+        <div class="card-body">
+            <form action="/user/settings/avatar/crop" method="post" class="form" role="form">
+                <input id="x" name="x" type="hidden" value="0">
+                <input id="y" name="y" type="hidden" value="0">
+                <input id="w" name="w" type="hidden" value="200">
+                <input id="h" name="h" type="hidden" value="200">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input class="btn btn-primary btn-md" name="submit" type="submit" value="Crop and Update">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/jcrop-preview.css') }}" rel="stylesheet" />
+    <script src="{{ url_for('static', filename='jcrop/js/jquery.Jcrop.min.js') }}"></script>
+    <script>
+        jQuery(function ($) {
+      // Create variables (in this scope) to hold the API and image size
+      var jcrop_api,
+          boundx,
+          boundy,
+          $pcnt = $('#preview-box .preview-box'),
+          $pimg = $('#preview-box .preview-box img'),
+
+          xsize = $pcnt.width(),
+          ysize = $pcnt.height();
+
+      $('#crop-box').Jcrop({
+        onChange: updatePreview,
+        onSelect: updateCoords,
+        setSelect: [0, 0, 200, 200],
+        aspectRatio: 1
+      }, function () {
+        // Use the API to get the real image size
+        var bounds = this.getBounds();
+        boundx = bounds[0];
+        boundy = bounds[1];
+        // Store the API in the jcrop_api variable
+        jcrop_api = this;
+        jcrop_api.focus();
+      });
+
+      function updatePreview(c) {
+        if (parseInt(c.w) > 0) {
+          var rx = xsize / c.w;
+          var ry = ysize / c.h;
+          $pimg.css({
+            width: Math.round(rx * boundx) + 'px',
+            height: Math.round(ry * boundy) + 'px',
+            marginLeft: '-' + Math.round(rx * c.x) + 'px',
+            marginTop: '-' + Math.round(ry * c.y) + 'px'
+          });
+        }
+      }
+    });
+
+    function updateCoords(c) {
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
+    }
+    </script>
+{% endblock %}

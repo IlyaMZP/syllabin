@@ -1,0 +1,2 @@
+FLASK_APP=syllaboard
+FLASK_ENV=development
