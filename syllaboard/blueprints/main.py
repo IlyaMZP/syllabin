@@ -33,3 +33,7 @@ def service_worker():
 def manifest():
     return send_from_directory('static', 'manifest.json')
 
+
+@main_bp.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico')
