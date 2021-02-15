@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% from 'macros.html' import render_breadcrumb %}
+{% block title %}Manage Professors{% endblock %}
 
 {% block content %}
 	<div class="page-header" style="padding-top:0">
@@ -64,3 +65,6 @@ $(document).ready(function(){
 });
 </script>
 {% endblock %}
+{% block breadcrumbs %}
+{{ render_breadcrumb('dash.index', "Dashboard") }}
+{% endblock breadcrumbs %}

@@ -4,7 +4,7 @@
 	{% block head %}
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>asdas</title>
+	<title>{% block title %}Home{% endblock title %}</title>
 	<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -63,6 +63,14 @@
       </ul>
     </div>
   </div>
+</nav>
+
+<nav class="breadcrumb fixed-bottom bg-dark" aria-label="breadcrumb" style="padding-left: 16px; margin-bottom: -10px;">
+  <ol class="breadcrumb" style="padding-top: 4px;">
+    {% if request.url_rule.endpoint != "main.index" %}<li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Home</a></li>{% endif %}
+    {% block breadcrumbs %}{% endblock breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{{ self.title() }}</li>
+  </ol>
 </nav>
 {% endblock nav %}
 

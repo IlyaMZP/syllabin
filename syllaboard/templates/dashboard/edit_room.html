@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% from 'macros.html' import render_breadcrumb %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Edit Room{% endblock %}
 {% block head %}
     {{ super() }}
     <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
@@ -37,3 +38,6 @@
     autocomplete(document.getElementById("room_inp"), 'https://test.mzp.icu/api/rooms');
     </script>
 {% endblock %}
+{% block breadcrumbs %}
+{{ render_breadcrumb('dash.index', "Dashboard") }}
+{% endblock breadcrumbs %}

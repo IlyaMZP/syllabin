@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% from 'macros.html' import render_breadcrumb %}
+{% block title %}Dashboard{% endblock %}
 {% block head %}
     {{ super() }}
     <link href="{{ url_for('static', filename='css/autocomplete.css') }}" rel="stylesheet" />
