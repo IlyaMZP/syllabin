@@ -71,6 +71,7 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean, default=True)
     enrolled_at = db.Column(db.DateTime())
     expelled_at = db.Column(db.DateTime())
+    notification_endpoint = db.Column(db.String(256))
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     role = db.relationship('Role', back_populates='users')
     group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))

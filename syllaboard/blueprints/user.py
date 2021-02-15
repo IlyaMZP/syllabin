@@ -1,12 +1,26 @@
-import os
+import os, json
 from flask import render_template, flash, redirect, request, url_for, Blueprint, current_app
 from flask_login import login_required, current_user
 
-from syllaboard.components import db, avatars
+from syllaboard.components import db, avatars, csrf
 from syllaboard.forms.user import UploadAvatarForm, CropAvatarForm
 
 
 user_bp = Blueprint('user', __name__)
+
+
+@user_bp.route('/notification_token', methods=['POST'])
+@login_required
+@csrf.exempt
+def notification_token():
+    if request.is_json:
+        data = request.json
+        json_data = json.loads(data)
+        endpoint = json_data["endpoint"]
+        if current_user.notification_endpoint != endpoint:
+            current_user.notification_endpoint = endpoint
+            db.session.commit()
+    return 'ok'
 
 
 @user_bp.route('/settings/avatar')
