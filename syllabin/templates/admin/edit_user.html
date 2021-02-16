@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import render_breadcrumb %}
 
-{% block title %}Regestration Link Genaration{% endblock %}
+{% block title %}Create User{% endblock %}
 {% block head %}
     {{ super() }}
     <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
@@ -11,12 +11,16 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card mb-3 w-100 bg-light">
-                    <div class="card-header"><h4>Regestration Link Genaration</h4></div>
+                    <div class="card-header"><h4>Add entry to the timetable</h4></div>
                     <div class="card-body">
 
 <form autocomplete="off" action="{{ url_for('admin.create_user') }}" method="POST">
 {{ form.csrf_token }}
 <div class="form-group">
+    <input class="form-control" id="email" name="email" required="" type="text" value="">
+
+
+
     <label for="group_input">User group</label>
     <select id="group_input" class="form-control" name="group">
     {% if groups %}
@@ -35,7 +39,7 @@
       {% endfor %}
     </select>
   </div>
-  <input type="submit"  style="margin-top:8px" value="Get Link">
+  <input type="submit"  style="margin-top:8px" value="Add user">
 </form>
 
 </div>

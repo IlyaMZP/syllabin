@@ -15,7 +15,6 @@
 {% if users %}<h6 class="card-subtitle mb-2 text-muted">{{ users|length }} Users</h6>{% endif %}
     <p class="card-text">Create and manage users</p>
     <div class="btn-group">
-        <a type="button" href="{{ url_for('admin.create_user') }}" class="btn btn-sm btn-outline-secondary">Create</a>
         <a type="button" href="{{ url_for('admin.create_user') }}" class="btn btn-sm btn-outline-secondary">Send Registration Link</a>
         <a type="button" href="{{ url_for('admin.manage_users') }}" class="btn btn-sm btn-outline-secondary">Manage</a>
     </div>

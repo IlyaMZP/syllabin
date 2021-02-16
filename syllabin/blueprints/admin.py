@@ -1,3 +1,4 @@
+import uuid
 from flask import render_template, flash, redirect, request, url_for, Blueprint
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
@@ -24,11 +25,34 @@ def manage_users():
 def create_user():
     form = FlaskForm()
     if form.validate_on_submit():
-        group = request.form['group']
-        role = request.form['role']
-        flash('Success.', 'info')
+        group_name = request.form['group']
+        role_name = request.form['role']
+        group = Group.query.filter_by(name=group_name).first()
+        uid = str(uuid.uuid4())
+        if group:
+            user = User(group_id=group.id, active=False, username=uid)
+            user.set_role(role_name)
+            db.session.add(user)
+            db.session.commit()
+            message = 'Success. Registration URL: https://test.mzp.icu/auth/register?id=' + uid
+            flash(message, 'info')
+        else:
+            flash('No such group.', 'warning')
         return redirect(url_for('admin.create_user'))
     return render_template('admin/create_user.html', form=form, roles=Role.query.all(), groups=Group.query.all())
+
+
+
+@admin_bp.route('/delete_user/<int:user_id>')
+@login_required
+@admin_required
+def delete_user(user_id):
+    to_delete = User.query.get(user_id)
+    if to_delete:
+        db.session.delete(to_delete)
+        db.session.commit()
+        flash('Success.', 'info')
+    return redirect(url_for('admin.manage_users'))
 
 
 @admin_bp.route('/manage_groups')

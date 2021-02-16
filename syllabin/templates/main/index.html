@@ -3,7 +3,7 @@
 
 {% block content %}
 	<div class="page-header" style="padding-top:0">
-		<h1 style="margin:0">Home</h1>
+        <h1 class="bd-title" id="content">Home</h1>
 	</div>
 	<div class="row">
 		<div class="col-sm-8">
@@ -25,11 +25,13 @@
 		        </div>
 {% if useragent_firefox %}
 <h2>Looks like you're using firefox</h2>
+<p>
 Some features, like notifications, won't work with firefox browser.
-<p>
+<br>
 Firefox developers decided to <a href="https://www.i-programmer.info/news/87-web-development/14261-firefox-drops-support-for-pwa.html" rel="noopener" target="_blank">remove PWA support</a> and block service worker loading.
-<p>
+<br>
 Author of this site strongly advises against using Mozilla Firefox. <small class="text-muted">Even though he continues to use it.</small>
+</p>
 {% endif %}
         	</div>
 		</div>

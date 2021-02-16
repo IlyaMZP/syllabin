@@ -1,9 +1,9 @@
-from flask import render_template, flash, redirect, url_for, Blueprint
+from flask import render_template, flash, redirect, request, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user, login_fresh, confirm_login
 
 from syllabin.components import db
-from syllabin.forms.auth import LoginForm
-from syllabin.models import User
+from syllabin.forms.auth import LoginForm, RegisterForm
+from syllabin.models import User, Group
 from syllabin.utils import redirect_back
 
 auth_bp = Blueprint('auth', __name__)
@@ -13,10 +13,9 @@ auth_bp = Blueprint('auth', __name__)
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.validate_password(form.password.data):
             if login_user(user, form.remember_me.data):
                 flash('Login success.', 'info')
@@ -32,20 +31,35 @@ def login():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-
+    registration_id = request.args.get('id', None)
     form = RegisterForm()
     if form.validate_on_submit():
         name = form.name.data
         email = form.email.data.lower()
         username = form.username.data
         password = form.password.data
-        user = User(name=name, email=email, username=username)
+        group_name = form.group.data
+        registration_id = request.form['registration_id']
+        if group_name:
+            group = Group.query.filter_by(name=group_name).first()
+            user = User(name=name, email=email, username=username, group_id=group.id)
+        elif registration_id:
+            template = User.query.filter_by(username=registration_id, active=False).first()
+            user = User(name=name, email=email, group=template.group, username=username)
+            user.set_role(template.role.name)
+            db.session.delete(template)
+        else:
+            user = User(name=name, email=email, username=username)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        flash('Confirm email sent, check your inbox.', 'info')
+        flash('Account created.', 'info')
         return redirect(url_for('.login'))
-    return render_template('auth/register.html', form=form)
+    if registration_id:
+        return render_template('auth/register.html', form=form, registration_id=registration_id)
+    else:
+        groups = Group.query.all()
+        return render_template('auth/register.html', form=form, groups=groups)
 
 
 @auth_bp.route('/forget-password', methods=['GET', 'POST'])

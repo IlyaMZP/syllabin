@@ -3,8 +3,8 @@ from flask import render_template, flash, redirect, request, url_for, Blueprint,
 from flask_login import login_required, current_user
 
 from syllabin.components import db, avatars, csrf
-from syllabin.forms.user import UploadAvatarForm, CropAvatarForm
-from syllabin.models import Notification
+from syllabin.forms.user import UploadAvatarForm, CropAvatarForm, ChangePasswordForm
+from syllabin.models import Subscription
 
 
 user_bp = Blueprint('user', __name__)
@@ -16,13 +16,13 @@ user_bp = Blueprint('user', __name__)
 def notification_token():
     if request.is_json:
         data = request.json
-        notification = Notification.query.filter_by(subscription_info=data).first()
-        if not notification:
+        subscription = Subscription.query.filter_by(subscription_info=data).first()
+        if not subscription:
             if current_user.group:
-                notification = Notification(group_id=current_user.group.id, subscription_info=data)
+                subscription = Subscription(group_id=current_user.group.id, subscription_info=data)
             else:
-                notification = Notification(subscription_info=data)
-            db.session.add(notification)
+                subscription = Subscription(subscription_info=data)
+            db.session.add(subscription)
             db.session.commit()
     return 'ok'
 
@@ -67,3 +67,18 @@ def crop_avatar():
         db.session.commit()
         flash('Avatar updated.', 'success')
     return redirect(url_for('.change_avatar'))
+
+
+@user_bp.route('/settings/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if current_user.validate_password(form.old_password.data):
+            current_user.set_password(form.password.data)
+            db.session.commit()
+            flash('Password updated.', 'success')
+            return redirect(url_for('.change_password', username=current_user.username))
+        else:
+            flash('Old password is incorrect.', 'warning')
+    return render_template('settings/change_password.html', form=form)

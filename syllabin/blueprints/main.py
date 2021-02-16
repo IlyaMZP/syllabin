@@ -14,23 +14,23 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    if current_user.group:
-        announcements = Announcement.query.filter_by(group_id=current_user.group.id).all()
-    else:
-        announcements = Announcement.query.all()
-    if announcements:
-        for announcement in announcements:
-            if announcement.expires.date() <= date.today():
-                db.session.delete(announcement)
-                db.session.commit()
     useragent_firefox = None
     user_agent = request.headers.get('User-Agent')
     if "Firefox" in user_agent:
         useragent_firefox = 1
     if current_user.is_authenticated:
+        if current_user.group:
+            announcements = Announcement.query.filter_by(group_id=current_user.group.id).all()
+        else:
+            announcements = Announcement.query.all()
+        if announcements:
+            for announcement in announcements:
+                if announcement.expires.date() <= date.today():
+                    db.session.delete(announcement)
+                    db.session.commit()
         return render_template('main/index.html', announcements=announcements, entries=getTodayEntries(), useragent_firefox=useragent_firefox)
     else:
-        return render_template('main/index.html', announcements=announcements, useragent_firefox=useragent_firefox)
+        return render_template('main/index.html', useragent_firefox=useragent_firefox)
 
 
 @main_bp.route('/avatars/<path:filename>')

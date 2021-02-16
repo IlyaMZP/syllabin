@@ -14,10 +14,15 @@
 	{% endblock head %}
 </head>
 <body>
+<a id="skippy" style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;" href="#content">
+  <div class="container">
+    <span class="skiplink-text">Skip to main content</span>
+  </div>
+</a>
 {% block nav %}
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}"><img style="max-height: 54px; margin: -12px;" src="{{ url_for('static', filename='images/syllabin_logo_alt.svg') }}"></a>
+    <a class="navbar-brand" href="{{ url_for('main.index') }}" aria-label="Syllabin"><img style="max-height: 54px; margin: -12px;" src="{{ url_for('static', filename='images/syllabin_logo_alt.svg') }}"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -35,9 +40,6 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown_user">
                 <h6 class="dropdown-header">Logged in as {{ current_user.username }}</h6>
-                <li><a class="dropdown-item" href="{{ url_for('main.index') }}">
-                    <span class="oi oi-person"></span> My Home
-                </a></li>
                 <li><a class="dropdown-item" id="btnAdd"><span class="oi oi-box"> Install PWA app</a></li>
                 <li><a class="dropdown-item" id="notify-btn"><span class="oi oi-bell"> Notifications</a></li>
                 <div class="dropdown-divider"></div>

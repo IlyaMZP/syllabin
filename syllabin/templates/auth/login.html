@@ -12,18 +12,21 @@
                 <div class="card mb-3 w-100 bg-light">
                     <div class="card-header"><h4>Log in to Syllabin</h4></div>
                     <div class="card-body">
-    <form action="" method="post" class="form" role="form">
+    <form action="{{ url_for('.login') }}" method="POST" class="form" role="form">
         {{ form.csrf_token }}
-    <div class="form-group required"><label class="form-control-label" for="email">Email</label>
-                        <input class="form-control" id="email" name="email" required="" type="text" value="">
+        <div class="form-group required">
+            <label class="form-control-label" for="username">Username</label>
+            <input class="form-control" id="username" name="username" required="" type="text" value="">
         </div>
-    <div class="form-group required"><label class="form-control-label" for="password">Password</label>
-                        <input class="form-control" id="password" name="password" required="" type="password" value="">
+        <div class="form-group required">
+            <label class="form-control-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" required="" type="password" value="">
         </div>
-            <div class="form-group form-check"><input class="form-check-input" id="remember_me" name="remember_me" type="checkbox" value="y">
-                <label class="form-check-label" for="remember_me">Remember me</label>
-            </div>
-            <input class="btn btn-primary btn-md" id="submit" name="submit" type="submit" value="Log in">
+        <div class="form-group form-check">
+            <input class="form-check-input" id="remember_me" name="remember_me" type="checkbox" value="y">
+            <label class="form-check-label" for="remember_me">Remember me</label>
+        </div>
+        <input class="btn btn-primary btn-md" id="submit" name="submit" type="submit" value="Log in">
     </form>
                         <hr>
                         <p class="small"><a href="{{ url_for('.register') }}">Register new account</a></p>

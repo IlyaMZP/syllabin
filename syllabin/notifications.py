@@ -3,7 +3,7 @@ from threading import Thread
 from pywebpush import webpush, WebPushException
 from flask import current_app
 
-from syllabin.models import User, Group, Notification, Announcement
+from syllabin.models import User, Group, Subscription, Announcement
 from syllabin.components import db
 
 
@@ -25,19 +25,19 @@ def notify_group(text, group_name = None):
 
 def notify_group_thread(text, group_name):
     if group_name is None:
-        notifications = Notification.query.all()
+        subscriptions = Subscription.query.all()
         announcement = Announcement(message=text)
     else:
         group = Group.query.filter_by(name=group_name).first()
-        notifications = Notification.query.filter_by(group_id=group.id).all()
+        subscriptions = Subscription.query.filter_by(group_id=group.id).all()
         announcement = Announcement(message=text, group_id=group.id)
     db.session.add(announcement)
     db.session.commit()
-    for notification in notifications:
-        if notification.subscription_info:
+    for subscription in subscriptions:
+        if subscription.subscription_info:
             try:
 	            webpush(
-		            subscription_info=json.loads(notification.subscription_info),
+		            subscription_info=json.loads(subscription.subscription_info),
 		            data=text,
 		            vapid_private_key=current_app.config['SYLLABIN_PUSH_PRIVATE_KEY'],
 		            vapid_claims={
