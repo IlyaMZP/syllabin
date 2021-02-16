@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-8">
+                <img src="{{ url_for('static', filename='images/index.jpg') }}" class="rounded img-fluid">
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3 w-100 bg-light">
+                    <div class="card-header"><h4>Welcome to Syllabin!</h4></div>
+                    <div class="card-body">
+    <form action="{{ url_for('.register') }}" method="POST" class="form" role="form">
+        {{ form.csrf_token }}
+        <div class="form-group required">
+            <label class="form-control-label" for="username">Username</label>
+            <input class="form-control" id="username" name="username" required="" type="text" value="">
+        </div>
+        <div class="form-group required">
+            <label class="form-control-label" for="fullname">Full Name</label>
+            <input class="form-control" id="fullname" name="name" required="" type="text" value="">
+        </div>
+        <div class="form-group required">
+            <label class="form-control-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" required="" type="password" value="">
+        </div>
+        <div class="form-group required">
+            <label class="form-control-label" for="password2">Confirm password</label>
+            <input class="form-control" id="password2" name="password2" required="" type="password" value="">                
+        </div>
+        <div class="form-group required"><label class="form-control-label" for="email">Email</label>
+            <input class="form-control" id="email" name="email" required="" type="text" value="">
+        </div>
+        <input type="hidden" name="registration_id" value="{{ registration_id }}" />
+        {% if groups %}
+        <label for="group_input">Select group</label>
+        <select id="group_input" class="form-control" name="group">
+        {% for key in groups %}
+          <option>{{ key.name }}</option>
+        {% endfor %}
+          <option value="">Select Later</option>
+        </select>
+        {% endif %}
+        <input class="btn btn-primary btn-md mt-2" id="submit" name="submit" type="submit" value="Submit">
+    </form>
+                        <hr>
+                        <small>Already have an account? <a href="{{ url_for('.login') }}">Click here to log in.</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+{% if groups %}
+    <script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+    <script>
+    $('#group_input').select2();
+    </script>
+{% endif %}
+{% endblock %}

@@ -13,14 +13,24 @@
 <div class="card">
   <ul id="userList" class="list-group list-group-flush">
 {% for user in users %}
+{% if user.active %}
     <li class="list-group-item">
 {{ user.username }} - {{ user.name }}, {{ user.email }}, {{ user.group.name }}, {{ user.role.name }}
 <br>
     <div class="btn-group float-end">
         <a type="button" href="{{ url_for('admin.edit_group', group_id=user.id) }}" class="btn btn-outline-primary">Edit</a>
-        <button type="button" data-uri="{{ url_for('admin.delete_group', group_id=user.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
+        <button type="button" data-uri="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
     </div>
     </li>
+{% else %}
+    <li class="list-group-item">
+Registration Link: https://test.mzp.icu/auth/register?id={{ user.username }} - {{ user.group.name }}, {{ user.role.name }}
+<br>
+    <div class="btn-group float-end">
+        <button type="button" data-uri="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
+    </div>
+    </li>
+{% endif %}
 {% endfor %}
   </ul>
 </div>

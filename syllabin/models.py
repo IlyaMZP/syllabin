@@ -1,5 +1,6 @@
+import os
 from datetime import date, timedelta
-
+from flask import current_app
 from flask_login import UserMixin
 from flask_avatars import Identicon
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,7 +29,7 @@ class Group(db.Model):
     users = db.relationship('User', back_populates='group')
 
 
-class Notification(db.Model):
+class Subscription(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     subscription_info = db.Column(db.String(512), unique=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))
@@ -76,17 +77,15 @@ class Role(db.Model):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(254), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    name = db.Column(db.String(128))
+    name = db.Column(db.String(64))
     pfp_s = db.Column(db.String(64))
     pfp_m = db.Column(db.String(64))
     pfp_l = db.Column(db.String(64))
     pfp_raw = db.Column(db.String(64))
     active = db.Column(db.Boolean, default=True)
-    enrolled_at = db.Column(db.DateTime())
-    expelled_at = db.Column(db.DateTime())
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
     role = db.relationship('Role', back_populates='users')
     group_id = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"))
@@ -95,6 +94,7 @@ class User(db.Model, UserMixin):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         self.generate_pfp()
+        self.set_role()
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -108,6 +108,10 @@ class User(db.Model, UserMixin):
 
     def unblock(self):
         self.active = True
+        db.session.commit()
+
+    def set_role(self, role_name='Student'):
+        self.role = Role.query.filter_by(name=role_name).first()
         db.session.commit()
 
     def generate_pfp(self):
