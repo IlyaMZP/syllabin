@@ -280,7 +280,7 @@ def send_notification():
     if form.validate_on_submit():
         group = request.form['group']
         text = request.form['notification_text']
-        if group and curren_user.is_admin():
+        if group and current_user.is_admin:
             notify_group(text, group)
         else:
             notify_group(text)
