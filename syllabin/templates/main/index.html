@@ -13,19 +13,35 @@
 {% if announcements %}
 <h3>Announcements:
 {% for announcement in announcements %}
-{{ announcement.message }}{% if !loop.last %} | {% endif %}
+{{ announcement.message }}{% if not loop.last %} | {% endif %}
 {% endfor %}
 </h3>
 {% endif %}
 {% if entries %}
-            <div class="card-header"><h4>Timetable for {{ entries[0][0].weekday }}</h4></div>
-                <div class="card-body">
+<h4>Timetable for {{ entries[0][0].weekday }}</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Time</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Room</th>
+      <th scope="col">Professor</th>
+    </tr>
+  </thead>
+<tbody>
 {% for entry in entries %}
-{% if entry[1] == 1 %}9:00-10:20{% elif entry[1] == 2 %}10:30-11:50{% elif entry[1] == 3 %}12:40-14:00{% elif entry[1] == 4 %}14:10-14:30{% else %}15:40-17:00{% endif %} &ndash; {{ entry[0].subject.name }}, {{ entry[0].room.name }}, {{ entry[0].professor.name }}
-<br>
+<tr>
+<td>{% if entry[1] == 1 %}9:00-10:20{% elif entry[1] == 2 %}10:30-11:50{% elif entry[1] == 3 %}12:40-14:00{% elif entry[1] == 4 %}14:10-14:30{% else %}15:40-17:00{% endif %}</td>
+<td>{{ entry[0].subject.name }}</td>
+<td>{{ entry[0].room.name }}</td>
+<td>{{ entry[0].professor.name }}</td>
+</tr>
 {% endfor %}
 {% endif %}
-		        </div>
+</tbody>
+</table>
+
 {% if useragent_firefox %}
 <h2>Looks like you're using firefox</h2>
 <p>
