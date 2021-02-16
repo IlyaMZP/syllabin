@@ -29,29 +29,29 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
       <ul class="nav navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" aria-current="page" href="{{ url_for('main.index') }}">Home</a>
+          <a class="nav-link" aria-current="page" href="{{ url_for('main.index') }}"><span class="oi oi-home" aria-hidden="true"></span> Home</a>
         </li>
+        {% if current_user.is_headman %}
+        <li class="nav-item active"><a class="nav-link" href="{{ url_for('dash.index') }}">
+            <span class="oi oi-dashboard" aria-hidden="true"></span> Dashboard
+        </a></li>
+        {% endif %}
     {% if current_user.is_authenticated %}
         <li class="dropdown nav-item">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown_user" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-xs"
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown_user" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account actions">
+                <img  aria-hidden="true"class="avatar-xs"
                      src="{{ url_for('main.get_avatar', filename=current_user.pfp_s) }}">
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown_user">
                 <h6 class="dropdown-header">Logged in as {{ current_user.username }}</h6>
-                <li><a class="dropdown-item" href="" id="btnAdd" aria-hidden="false" aria-label="Install PWA">
+                <li><a class="dropdown-item" tabindex="0" id="btnAdd" aria-hidden="false" aria-label="Install PWA" aria-describedby="pwa_info">
                     <span class="oi oi-box" aria-hidden="true"></span> Install PWA app
                 </a></li>
-                <li><a class="dropdown-item" href="" id="notify-btn" aria-hidden="false" aria-label="Enable Notifications">
+                <span id="pwa_info" style="display:none">Pressing the button will add this website to your phone as a web app for offline use.</span>
+                <li><a class="dropdown-item" tabindex="0" id="notify-btn" aria-hidden="false" aria-label="Enable Notifications">
                     <span class="oi oi-bell" aria-hidden="true"></span> Notifications
                 </a></li>
-                <div class="dropdown-divider"></div>
-                {% if current_user.is_headman %}
-                <li><a class="dropdown-item" href="{{ url_for('dash.index') }}">
-                    <span class="oi oi-dashboard" aria-hidden="true"></span> Dashboard
-                </a></li>
-                {% endif %}
                 <li><a class="dropdown-item" href="{{ url_for('user.change_password') }}">
                     <span class="oi oi-cog" aria-hidden="true"></span> Settings
                 </a></li>
@@ -64,7 +64,6 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
         </li>
-        <li><a class="nav-link" id="btnAdd">Install PWA</a></li>
     {% endif %}
       </ul>
     </div>
@@ -75,8 +74,8 @@
 <main class="container">
 	{% for message in get_flashed_messages(with_categories=True) %}
 		<div class="alert alert-{{ message[0] }} alert-dismissible" role="alert">
-			<button type="button" class="btn-close" data-bs-dismiss="alert" role="button" aria-label="Close"></button>
 			{{ message[1] }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" tabindex="0" aria-label="Close"></button>
 		</div>
 	{% endfor %}
 	{% block content %}{% endblock content %}
