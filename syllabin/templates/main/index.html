@@ -13,7 +13,7 @@
 {% if announcements %}
 <h3>Announcements:
 {% for announcement in announcements %}
-{{ announcement.message }}{% if not loop.last %} | {% endif %}
+<div aria-label="Announcement {{ loop.index }} {{ announcement.message }}" style="all:unset;">{{ announcement.message }}</div>{% if not loop.last %} | {% endif %}
 {% endfor %}
 </h3>
 {% endif %}
