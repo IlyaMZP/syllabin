@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card mb-3 w-100 bg-light">
-                    <div class="card-header"><h4>Welcome to Syllabin!</h4></div>
+                    <div class="card-header"><h4 id="content">Welcome to Syllabin!</h4></div>
                     <div class="card-body">
     <form action="{{ url_for('.register') }}" method="POST" class="form" role="form">
         {{ form.csrf_token }}
@@ -43,7 +43,7 @@
         {% for key in groups %}
           <option>{{ key.name }}</option>
         {% endfor %}
-          <option value="">Select Later</option>
+          <option disabled value="">Select Later</option>
         </select>
         {% endif %}
         <input class="btn btn-primary btn-md mt-2" id="submit" name="submit" type="submit" value="Submit">
