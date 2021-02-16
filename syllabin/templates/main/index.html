@@ -32,7 +32,7 @@
 <tbody>
 {% for entry in entries %}
 <tr>
-<td>{% if entry[1] == 1 %}9:00-10:20{% elif entry[1] == 2 %}10:30-11:50{% elif entry[1] == 3 %}12:40-14:00{% elif entry[1] == 4 %}14:10-14:30{% else %}15:40-17:00{% endif %}</td>
+<th scope="row">{% if entry[1] == 1 %}9:00-10:20{% elif entry[1] == 2 %}10:30-11:50{% elif entry[1] == 3 %}12:40-14:00{% elif entry[1] == 4 %}14:10-14:30{% else %}15:40-17:00{% endif %}</th>
 <td>{{ entry[0].subject.name }}</td>
 <td>{{ entry[0].room.name }}</td>
 <td>{{ entry[0].professor.name }}</td>
