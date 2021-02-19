@@ -87,7 +87,7 @@ def getFirstDay(dt, d_months=0, d_years=0):
     return datetime(y+a, m+1, 1)
 
 
-def isWeekday(dt=date.today()):
+def isWeekday(dt):
     int_day_of_week = dt.weekday()
     day_of_week = calendar.day_name[int_day_of_week]
     if day_of_week not in ['Saturday','Sunday']:
@@ -96,7 +96,8 @@ def isWeekday(dt=date.today()):
         return False
 
 
-def getCurrentDay(dt=date.today()):
+def getCurrentDay(dt):
+    print(dt.weekday())
     int_day_of_week = dt.weekday()
     return calendar.day_name[int_day_of_week]
 
@@ -106,7 +107,7 @@ def daterange(start_date, end_date):
         yield start_date + timedelta(n)
 
 
-def getFirstWorkingDayOfMonth(dt=date.today()):
+def getFirstWorkingDayOfMonth(dt):
     first_day_of_month = getFirstDay(dt)
     seventh_day_of_month = first_day_of_month + timedelta(days=6)
     for d in daterange(first_day_of_month, seventh_day_of_month):
@@ -116,7 +117,7 @@ def getFirstWorkingDayOfMonth(dt=date.today()):
             continue
 
 
-def getCurrentWeek(dt=date.today()):
+def getCurrentWeek(dt):
     if dt.month > 8:
         start = 9
     else:
@@ -126,8 +127,8 @@ def getCurrentWeek(dt=date.today()):
 
 
 def getTodayEntries():
-    current_week = getCurrentWeek()
-    current_day = getCurrentDay()
+    current_week = getCurrentWeek(date.today())
+    current_day = getCurrentDay(date.today())
     user_group = current_user.group
     if current_user.is_admin or user_group is None:
         today_table_entries = Timetable.query.filter_by(weekday=current_day).all()
