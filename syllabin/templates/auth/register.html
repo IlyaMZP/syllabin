@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}Register{% endblock %}
-{% block head %}
-    {{ super() }}
-    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
-{% endblock %}
 {% block content %}
     <div class="jumbotron">
         <div class="row">
@@ -56,14 +52,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    {{ super() }}
-{% if groups %}
-    <script src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
-    <script>
-    $('#group_input').select2();
-    </script>
-{% endif %}
 {% endblock %}
