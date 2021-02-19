@@ -54,7 +54,10 @@ def edit_user(user_id):
         role_name = request.form['role']
         group_id = Group.query.filter_by(name=group_name).first()
         role_id = Role.query.filter_by(name=role_name).first()
-        to_edit.group_id = group_id.id
+        if not group_id:
+            to_edit.group_id = None
+        else:
+            to_edit.group_id = group_id.id
         to_edit.role_id = role_id.id
         db.session.commit()
         flash('Success.', 'info')
