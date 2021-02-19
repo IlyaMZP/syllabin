@@ -20,7 +20,7 @@
 {{ user.username }} - {{ user.name }}, {{ user.email }}, {{ user.group.name }}, {{ user.role.name }}
 <br>
     <div class="btn-group float-end">
-        <a type="button" href="{{ url_for('admin.edit_group', group_id=user.id) }}" class="btn btn-outline-primary">Edit</a>
+        <a type="button" href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-outline-primary">Edit</a>
         <button type="button" data-uri="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
     </div>
     </li>
