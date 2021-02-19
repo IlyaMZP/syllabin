@@ -10,3 +10,4 @@ werkzeug
 wtforms
 flask_debugtoolbar
 pywebpush
+email_validator
