@@ -43,6 +43,25 @@ def create_user():
 
 
 
+@admin_bp.route('/edit_group/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_user(user_id):
+    form = FlaskForm()
+    to_edit = User.query.get(user_id)
+    if form.validate_on_submit():
+        group_name = request.form['group']
+        role_name = request.form['role']
+        group_id = Group.query.filter_by(name=group_name).first()
+        role_id = Role.query.filter_by(name=role_name).first()
+        to_edit.group_id = group_id.id
+        to_edit.role_id = role_id.id
+        db.session.commit()
+        flash('Success.', 'info')
+        return redirect(url_for('admin.manage_users'))
+    return render_template('admin/edit_user.html', form=form, user=to_edit, roles=Role.query.all(), groups=Group.query.all())
+
+
 @admin_bp.route('/delete_user/<int:user_id>')
 @login_required
 @admin_required

@@ -14,21 +14,15 @@
                     <div class="card-header"><h4>Add entry to the timetable</h4></div>
                     <div class="card-body">
 
-<form autocomplete="off" action="{{ url_for('admin.create_user') }}" method="POST">
+<form autocomplete="off" action="{{ url_for('admin.edit_user', user_id=user.id) }}" method="POST">
 {{ form.csrf_token }}
 <div class="form-group">
-    <input class="form-control" id="email" name="email" required="" type="text" value="">
-
-
-
     <label for="group_input">User group</label>
     <select id="group_input" class="form-control" name="group">
     {% if groups %}
       {% for key in groups %}
       <option>{{ key.name }}</option>
       {% endfor %}
-    {% else %}
-      <option>Create a group before adding users</option>
     {% endif %}
     </select>
 
@@ -55,6 +49,11 @@
     <script>
     $('#role_input').select2();
     $('#group_input').select2();
+
+    $('#role_input').val("{{ user.role.name }}");
+    $('#role_input').trigger('change');
+    $('#group_input').val("{{ user.group.name }}");
+    $('#group_input').trigger('change');
     </script>
 {% endblock %}
 {% block breadcrumbs %}
