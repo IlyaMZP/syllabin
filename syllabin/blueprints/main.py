@@ -3,6 +3,7 @@ from datetime import date
 from flask import render_template, flash, redirect, url_for, current_app, \
     send_from_directory, request, abort, Blueprint, make_response
 from flask_login import login_required, current_user
+from sqlalchemy import or_
 
 from syllabin.utils import getTodayEntries
 from syllabin.models import Announcement
@@ -16,7 +17,7 @@ main_bp = Blueprint('main', __name__)
 def index():
     if current_user.is_authenticated:
         if current_user.group:
-            announcements = Announcement.query.filter_by(group_id=current_user.group.id).all()
+            announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
         else:
             announcements = Announcement.query.all()
         if announcements:
