@@ -70,7 +70,6 @@ function notificationCheck(result) {
 }
 
 function initializeUI() {
-    console.log("asasa");
     const notify = document.querySelector('#notify-btn');
     notify.addEventListener('click', (e) => {
         Notification.requestPermission().then(result => {
