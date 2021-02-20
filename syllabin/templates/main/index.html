@@ -19,7 +19,7 @@
 {% endif %}
 {% if entries %}
 <h4>Timetable for {{ entries[0][0].weekday }}</h4>
-
+<div class="table-responsive">
 <table class="table">
   <thead>
     <tr>
@@ -38,21 +38,13 @@
 <td>{{ entry[0].professor.name }}</td>
 </tr>
 {% endfor %}
+{% elif current_user.is_authenticated %}
+<h4>No lessons today</h4>
 {% endif %}
 </tbody>
 </table>
-
-{% if useragent_firefox %}
-<h2>Looks like you're using firefox</h2>
-<p>
-Some features, like notifications, won't work with firefox browser.
-<br>
-Firefox developers decided to <a href="https://www.i-programmer.info/news/87-web-development/14261-firefox-drops-support-for-pwa.html" rel="noopener" target="_blank">remove PWA support</a> and block service worker loading.
-<br>
-Author of this site strongly advises against using Mozilla Firefox. <small class="text-muted">Even though he continues to use it.</small>
-</p>
-{% endif %}
-        	</div>
-		</div>
-	</div>
+</div>
+</div>
+</div>
+</div>
 {% endblock %}
