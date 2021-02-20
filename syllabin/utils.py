@@ -97,7 +97,6 @@ def isWeekday(dt):
 
 
 def getCurrentDay(dt):
-    print(dt.weekday())
     int_day_of_week = dt.weekday()
     return calendar.day_name[int_day_of_week]
 
