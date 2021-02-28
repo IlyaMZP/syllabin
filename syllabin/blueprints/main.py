@@ -1,11 +1,11 @@
 import os
-from datetime import date
+from datetime import date, timedelta
 from flask import render_template, flash, redirect, url_for, current_app, \
     send_from_directory, request, abort, Blueprint, make_response
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 
-from syllabin.utils import getTodayEntries
+from syllabin.utils import getDayEntries, getCurrentWeek
 from syllabin.models import Announcement
 from syllabin.components import db
 #from sqlalchemy.sql.expression import func
@@ -16,6 +16,7 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 def index():
     if current_user.is_authenticated:
+        today = date.today()
         if current_user.group:
             announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
         else:
@@ -25,9 +26,25 @@ def index():
                 if announcement.expires.date() <= date.today():
                     db.session.delete(announcement)
                     db.session.commit()
-        return render_template('main/index.html', announcements=announcements, entries=getTodayEntries())
+        return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today))
     else:
         return render_template('main/index.html')
+
+
+@login_required
+@main_bp.route('/tomorrow')
+def tomorrow():
+    today = date.today() + timedelta(days=1)
+    if current_user.group:
+        announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
+    else:
+        announcements = Announcement.query.all()
+    if announcements:
+        for announcement in announcements:
+            if announcement.expires.date() <= date.today():
+                db.session.delete(announcement)
+                db.session.commit()
+    return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today))
 
 
 @main_bp.route('/avatars/<path:filename>')
