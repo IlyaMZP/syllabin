@@ -38,15 +38,18 @@
 <td>{{ entry[0].professor.name }}</td>
 </tr>
 {% endfor %}
-{% elif current_user.is_authenticated %}
-<h4>No lessons today.</h4>
-{% endif %}
 </tbody>
 </table>
 </div>
-{% if request.url_rule.endpoint != "main.tomorrow" %}<a href="{{ url_for('main.tomorrow') }}">Lessons tomorrow</a>.{% endif %}
-{% if request.url_rule.endpoint != "main.index" %}<a href="{{ url_for('main.index') }}">Lessons today</a>.{% endif %}
+{% elif current_user.is_authenticated %}
+<h4>No lessons today.</h4>
+{% endif %}
 </div>
+{% if current_user.is_authenticated %}
+{% if request.url_rule.endpoint != "main.tomorrow" %}<a href="{{ url_for('main.tomorrow') }}" class="mb-2">Lessons tomorrow</a>{% endif %}
+{% if request.url_rule.endpoint != "main.index" %}<a href="{{ url_for('main.index') }}" class="mb-2">Lessons today</a>{% endif %}
+<a href="{{ url_for('main.week') }}" class="mb-2">Week view</a>
+{% endif %}
 </div>
 </div>
 {% endblock %}

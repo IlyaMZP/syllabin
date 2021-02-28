@@ -5,7 +5,7 @@ from flask import render_template, flash, redirect, url_for, current_app, \
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 
-from syllabin.utils import getDayEntries, getCurrentWeek
+from syllabin.utils import getDayEntries, getCurrentWeek, getFirstWeekDay
 from syllabin.models import Announcement
 from syllabin.components import db
 #from sqlalchemy.sql.expression import func
@@ -31,8 +31,8 @@ def index():
         return render_template('main/index.html')
 
 
-@login_required
 @main_bp.route('/tomorrow')
+@login_required
 def tomorrow():
     today = date.today() + timedelta(days=1)
     if current_user.group:
@@ -45,6 +45,26 @@ def tomorrow():
                 db.session.delete(announcement)
                 db.session.commit()
     return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today))
+
+
+@main_bp.route('/week')
+@login_required
+def week():
+    first_day = getFirstWeekDay(date.today() + timedelta(days=3))
+    colors = ["#C1A3A3", "#3F6DBD", "#43A126", "#B9BA30", "#B2508B"]
+    days_entries = []
+    if current_user.group:
+        announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
+    else:
+        announcements = Announcement.query.all()
+    if announcements:
+        for announcement in announcements:
+            if announcement.expires.date() <= date.today():
+                db.session.delete(announcement)
+                db.session.commit()
+    for i in range(0,6):
+        days_entries.append(getDayEntries(first_day + timedelta(days=i)))
+    return render_template('main/week.html', announcements=announcements, entries=days_entries, week=getCurrentWeek(first_day), colors=colors)
 
 
 @main_bp.route('/avatars/<path:filename>')

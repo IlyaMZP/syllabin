@@ -18,69 +18,13 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from syllabin.components import db
 from syllabin.models import User, Group, Subject, Room, Professor, Timetable
-"""
-from syllabin.settings import Operations
 
 
-def generate_token(user, operation, expire_in=None, **kwargs):
-    s = Serializer(current_app.config['SECRET_KEY'], expire_in)
-
-    data = {'id': user.id, 'operation': operation}
-    data.update(**kwargs)
-    return s.dumps(data)
+def getFirstWeekDay(dt):
+    return dt - timedelta(days=dt.weekday())
 
 
-def validate_token(user, token, operation, new_password=None):
-    s = Serializer(current_app.config['SECRET_KEY'])
-
-    try:
-        data = s.loads(token)
-    except (SignatureExpired, BadSignature):
-        return False
-
-    if operation != data.get('operation') or user.id != data.get('id'):
-        return False
-
-    if operation == Operations.CONFIRM:
-        user.confirmed = True
-    elif operation == Operations.RESET_PASSWORD:
-        user.set_password(new_password)
-    elif operation == Operations.CHANGE_EMAIL:
-        new_email = data.get('new_email')
-        if new_email is None:
-            return False
-        if User.query.filter_by(email=new_email).first() is not None:
-            return False
-        user.email = new_email
-    else:
-        return False
-
-    db.session.commit()
-    return True
-
-
-def rename_image(old_filename):
-    ext = os.path.splitext(old_filename)[1]
-    new_filename = uuid.uuid4().hex + ext
-    return new_filename
-
-
-def resize_image(image, filename, base_width):
-    filename, ext = os.path.splitext(filename)
-    img = Image.open(image)
-    if img.size[0] <= base_width:
-        return filename + ext
-    w_percent = (base_width / float(img.size[0]))
-    h_size = int((float(img.size[1]) * float(w_percent)))
-    img = img.resize((base_width, h_size), PIL.Image.ANTIALIAS)
-
-    filename += current_app.config['ALBUMY_PHOTO_SUFFIX'][base_width] + ext
-    img.save(os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename), optimize=True, quality=85)
-    return filename
-"""
-
-
-def getFirstDay(dt, d_months=0, d_years=0):
+def getFirstMonthDay(dt, d_months=0, d_years=0):
     # d_years, d_months are "deltas" to apply to dt
     y, m = dt.year + d_years, dt.month + d_months
     a, m = divmod(m-1, 12)
@@ -107,7 +51,7 @@ def daterange(start_date, end_date):
 
 
 def getFirstWorkingDayOfMonth(dt):
-    first_day_of_month = getFirstDay(dt)
+    first_day_of_month = getFirstMonthDay(dt)
     seventh_day_of_month = first_day_of_month + timedelta(days=6)
     for d in daterange(first_day_of_month, seventh_day_of_month):
         if isWeekday(d):
