@@ -39,6 +39,9 @@ def register():
         username = form.username.data
         password = form.password.data
         group_name = form.group.data
+        if User.query.filter_by(username=username).first():
+            flash('User exists.', 'warning')
+            return redirect(url_for('.register'))
         registration_id = request.form['registration_id']
         if group_name:
             group = Group.query.filter_by(name=group_name).first()
@@ -55,6 +58,8 @@ def register():
         db.session.commit()
         flash('Account created.', 'info')
         return redirect(url_for('.login'))
+    if form.errors:
+        flash('Passwords do not match.', 'warning')
     if registration_id:
         return render_template('auth/register.html', form=form, registration_id=registration_id)
     else:
