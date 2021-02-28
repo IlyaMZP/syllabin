@@ -125,9 +125,9 @@ def getCurrentWeek(dt):
     return dt.isocalendar()[1] - first_working_day_of_month.isocalendar()[1] + 1
 
 
-def getTodayEntries():
-    current_week = getCurrentWeek(date.today())
-    current_day = getCurrentDay(date.today())
+def getDayEntries(dt):
+    current_week = getCurrentWeek(dt)
+    current_day = getCurrentDay(dt)
     user_group = current_user.group
     if current_user.is_admin or user_group is None:
         today_table_entries = Timetable.query.filter_by(weekday=current_day).all()
