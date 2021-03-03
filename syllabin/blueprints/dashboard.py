@@ -163,6 +163,11 @@ def manage_subjects():
 @login_required
 @headman_required
 def delete_subject(subject_id):
+    if not current_user.is_admin:
+        used = Timetable.query.filter(Timetable.subj_id==subject_id, Timetable.group_id != current_user.group.id).first()
+        if used:
+            flash('This item is used by another group and cannot be deleted.', 'danger')
+            return redirect(url_for('dash.manage_subjects'))
     to_delete = Subject.query.get(subject_id)
     if to_delete:
         db.session.delete(to_delete)
@@ -182,6 +187,11 @@ def edit_subject(subject_id):
         if not subject_name:
             flash('Name cannot be empty.', 'warning')
             return redirect(url_for('dash.manage_subjects'))
+        if not current_user.is_admin:
+            used = Timetable.query.filter(Timetable.subj_id==subject_id, Timetable.group_id!=current_user.group.id).first()
+            if used:
+                flash('This item is used by another group and cannot be edited.', 'danger')
+                return redirect(url_for('dash.manage_subjects'))
         subject_id = Subject.query.filter_by(name=subject_name).first()
         if not subject_id:
             to_edit.name = subject_name
@@ -203,6 +213,11 @@ def manage_professors():
 @login_required
 @headman_required
 def delete_professor(professor_id):
+    if not current_user.is_admin:
+        used = Timetable.query.filter(Timetable.prof_id==professor_id, Timetable.group_id!=current_user.group.id).first()
+        if used:
+            flash('This item is used by another group and cannot be deleted.', 'danger')
+            return redirect(url_for('dash.manage_professors'))
     to_delete = Professor.query.get(professor_id)
     if to_delete:
         db.session.delete(to_delete)
@@ -222,6 +237,11 @@ def edit_professor(professor_id):
         if not professor_name:
             flash('Name cannot be empty.', 'warning')
             return redirect(url_for('dash.manage_professors'))
+        if not current_user.is_admin:
+            used = Timetable.query.filter(Timetable.prof_id==professor_id, Timetable.group_id!=current_user.group.id).first()
+            if used:
+                flash('This item is used by another group and cannot be edited.', 'danger')
+                return redirect(url_for('dash.manage_professors'))
         professor_id = Professor.query.filter_by(name=professor_name).first()
         if not professor_id:
             to_edit.name = professor_name
@@ -243,6 +263,11 @@ def manage_rooms():
 @login_required
 @headman_required
 def delete_room(room_id):
+    if not current_user.is_admin:
+        used = Timetable.query.filter(Timetable.room_id==room_id, Timetable.group_id!=current_user.group.id).first()
+        if used:
+            flash('This item is used by another group and cannot be deleted.', 'danger')
+            return redirect(url_for('dash.manage_rooms'))
     to_delete = Room.query.get(room_id)
     if to_delete:
         db.session.delete(to_delete)
@@ -262,6 +287,11 @@ def edit_room(room_id):
         if not room_name:
             flash('Name cannot be empty.', 'warning')
             return redirect(url_for('dash.manage_rooms'))
+        if not current_user.is_admin:
+            used = Timetable.query.filter(Timetable.room_id==room_id, Timetable.group_id!=current_user.group.id).first()
+            if used:
+                flash('This item is used by another group and cannot be edited.', 'danger')
+                return redirect(url_for('dash.manage_rooms'))
         room_id = Room.query.filter_by(name=room_name).first()
         if not room_id:
             to_edit.name = room_name
