@@ -20,7 +20,10 @@ def index():
     rooms = Room.query.all()
     subjects = Subject.query.all()
     professors = Professor.query.all()
-    timetable = Timetable.query.all()
+    if current_user.is_admin:
+        timetable = Timetable.query.all()
+    else:
+        timetable = Timetable.query.filter_by(group_id=current_user.group.id).all()
     if current_user.is_admin:
         users = User.query.all()
     else:
@@ -44,8 +47,11 @@ def add_entry():
         room = request.form['room']
         day = request.form['day']
         professor = request.form['professor']
-        group = request.form['group']
-        if all([weeks, lessons, day, subject, room, professor, group]):
+        try:
+            group = request.form['group']
+        except:
+            group = current_user.group.name
+        if all([weeks, lessons, day, subject, room, professor]):
             group_id = Group.query.filter_by(name=group).first()
             subject_id = Subject.query.filter_by(name=subject).first()
             room_id = Room.query.filter_by(name=room).first()
@@ -90,7 +96,10 @@ def edit_entry(entry_id):
         room = request.form['room']
         day = request.form['day']
         professor = request.form['professor']
-        group = request.form['group']
+        try:
+            group = request.form['group']
+        except:
+            group = current_user.group.name
         if all([weeks, lessons, day, subject, room, professor, group]):
             group_id = Group.query.filter_by(name=group).first()
             if group_id is None:
@@ -136,7 +145,10 @@ def edit_entry(entry_id):
 @login_required
 @headman_required
 def manage_entries():
-    entries = Timetable.query.all()
+    if current_user.is_admin:
+        entries = Timetable.query.all()
+    else:
+        entries = Timetable.query.filter_by(group_id=current_user.group.id).all()
     return render_template('dashboard/manage_entries.html', entries=entries)
 
 
