@@ -23,7 +23,7 @@ def login():
             else:
                 flash('Your account is blocked.', 'warning')
                 return redirect(url_for('main.index'))
-        flash('Invalid email or password.', 'warning')
+        flash('Invalid username or password.', 'warning')
     return render_template('auth/login.html', form=form)
 
 
