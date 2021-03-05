@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Week view{% endblock %}
 {% block content %}
+<a id="skippy_week" style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;" href="#week_selector">
+  <div class="container">
+    <span class="skiplink-text">Skip to week selector</span>
+  </div>
+</a>
 	<div class="page-header" style="padding-top:0">
         <h1 class="bd-title" id="content">Week view</h1>
 	</div>
 	<div class="row">
 		<div class="col-sm-10">
-
 <h4>Timetable for week {{ week }}</h4>
 <h5>{{ day }}</h5>
 <div class="table-responsive">
@@ -36,6 +40,25 @@
 </tbody>
 </table>
 </div>
+<nav aria-label="Week selector" id="week_selector">
+  <ul class="pagination">
+    <li class="page-item {% if week == 1 %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('main.week', week_num=week-1) }}" tabindex="-1">Previous</a>
+    </li>
+{% for page in range(week-3 if week > 3 else 1,week) %}
+    <li class="page-item"><a class="page-link" href="{{ url_for('main.week', week_num=page) }}">{{ page }}</a></li>
+{% endfor %}
+    <li class="page-item active">
+      <a class="page-link" href="#">{{ week }}</a>
+    </li>
+{% for page in range(week+1, week+4 if week <16 else 20) %}
+    <li class="page-item"><a class="page-link" href="{{ url_for('main.week', week_num=page) }}">{{ page }}</a></li>
+{% endfor %}
+    <li class="page-item" {% if week == 19 %}disabled{% endif %}>
+      <a class="page-link" href="{{ url_for('main.week', week_num=week+1) }}">Next</a>
+    </li>
+  </ul>
+</nav>
 </div>
 </div>
 </div>
