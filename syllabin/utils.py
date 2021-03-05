@@ -65,7 +65,7 @@ def getCurrentWeek(dt):
         start = 9
     else:
         start = 2
-    first_working_day_of_month = getFirstWorkingDayOfMonth(datetime(dt.year, start, dt.day))
+    first_working_day_of_month = getFirstWorkingDayOfMonth(datetime(dt.year, start, 1))
     return dt.isocalendar()[1] - first_working_day_of_month.isocalendar()[1] + 1
 
 
