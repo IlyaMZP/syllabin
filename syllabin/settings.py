@@ -14,7 +14,6 @@ class BaseConfig(object):
     SYLLABIN_ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
     SESSION_COOKIE_SAMESITE = 'Strict'
     SESSION_COOKIE_SECURE = True
-    SYLLABIN_DOMAIN_NAME = 'mzp.icu'
     MAX_CONTENT_LENGTH = 3 * 1024 * 1024
     AVATARS_SAVE_PATH = os.path.join(SYLLABIN_UPLOAD_PATH, 'avatars')
     AVATARS_SIZE_TUPLE = (24, 100, 200)
