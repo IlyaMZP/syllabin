@@ -18,6 +18,7 @@
 <form autocomplete="off" action="{{ url_for('dash.add_entry') }}" method="POST">
 {{ form.csrf_token }}
 <div class="form-group">
+{% if current_user.is_admin %}
     <label for="group_input">Select group</label>
     <select id="group_input" class="form-control" name="group">
 {% if groups %}
@@ -28,6 +29,7 @@
       <option>Create a group before adding entries</option>
 {% endif %}
     </select>
+{% endif %}
     <div class="autocomplete mt-1">
         <input id="subj_inp" type="text" name="subject" placeholder="Subject">
     </div>

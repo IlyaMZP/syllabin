@@ -48,7 +48,7 @@
 {% if current_user.is_authenticated %}
 {% if request.url_rule.endpoint != "main.tomorrow" %}<a href="{{ url_for('main.tomorrow') }}" class="mb-2">Lessons tomorrow</a>{% endif %}
 {% if request.url_rule.endpoint != "main.index" %}<a href="{{ url_for('main.index') }}" class="mb-2">Lessons today</a>{% endif %}
-<a href="{{ url_for('main.week') }}" class="mb-2">Week view</a>
+<a href="{{ url_for('main.week', week_num=week) }}" class="mb-2">Week view</a>
 {% endif %}
 </div>
 </div>
