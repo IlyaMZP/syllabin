@@ -43,7 +43,7 @@ def create_user():
 
 
 
-@admin_bp.route('/edit_group/<int:user_id>', methods=['GET', 'POST'])
+@admin_bp.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_user(user_id):
