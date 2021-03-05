@@ -95,6 +95,7 @@
 			</p>
 		</footer>
 	{% endblock footer %}
+{% if request.url_rule.endpoint not in ["main.index", "main.tomorrow", "main.week"] %}
 <nav class="breadcrumb fixed-bottom bg-dark" aria-label="breadcrumb" style="padding-left: 16px; margin-bottom: -10px;">
   <ol class="breadcrumb" style="padding-top: 4px;">
     {% if request.url_rule.endpoint != "main.index" %}<li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Home</a></li>{% endif %}
@@ -102,6 +103,7 @@
     <li class="breadcrumb-item active" aria-current="page">{{ self.title() }}</li>
   </ol>
 </nav>
+{% endif %}
 </main>
 
 {% block scripts %}
