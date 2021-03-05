@@ -1,5 +1,5 @@
 import uuid
-from flask import render_template, flash, redirect, request, url_for, Blueprint
+from flask import render_template, flash, redirect, request, url_for, Blueprint, current_app
 from flask_login import login_required, current_user
 from flask_wtf import FlaskForm
 
@@ -34,7 +34,7 @@ def create_user():
             user.set_role(role_name)
             db.session.add(user)
             db.session.commit()
-            message = 'Success. Registration URL: https://test.mzp.icu/auth/register?id=' + uid
+            message = 'Success. Registration URL: https://' + current_app.config['SYLLABIN_DOMAIN_NAME'] + '/auth/register?id=' + uid
             flash(message, 'info')
         else:
             flash('No such group.', 'warning')

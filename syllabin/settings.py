@@ -20,6 +20,7 @@ class BaseConfig(object):
     AVATARS_SIZE_TUPLE = (24, 100, 200)
     AVATARS_CROP_BASE_WIDTH = 320
     SYLLABIN_PUSH_PRIVATE_KEY = "7EOmZ05femDYbUH_6sx3ySEytPlo9MW3s0YgkvJio1k"
+    SYLLABIN_DOMAIN_NAME = 'syllabin.mzp.icu'
 
 
 class DevelopmentConfig(BaseConfig):
