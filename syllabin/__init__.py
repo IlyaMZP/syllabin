@@ -26,14 +26,14 @@ def create_app(config_name=None):
     app = Flask('syllabin')
     app.config.from_object(config[config_name])
 
-    register_extensions(app)
+    register_components(app)
     register_blueprints(app)
     register_commands(app)
     register_error_handlers(app)
     return app
 
 
-def register_extensions(app):
+def register_components(app):
     db.init_app(app)
     login_manager.init_app(app)
     csrf.init_app(app)
