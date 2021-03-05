@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import render_breadcrumb %}
 
-{% block title %}Create User{% endblock %}
+{% block title %}Edit User{% endblock %}
 {% block head %}
     {{ super() }}
     <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
@@ -34,7 +34,7 @@
       {% endfor %}
     </select>
   </div>
-  <input type="submit"  style="margin-top:8px" value="Add user">
+  <input type="submit"  style="margin-top:8px" value="Apply changes">
 </form>
 
 </div>
