@@ -1,12 +1,8 @@
-#from flask import render_template, flash, redirect, url_for, Blueprint, jsonify, request
-#from flask_login import login_user, logout_user, login_required, current_user, login_fresh, confirm_login
 from flask import jsonify, Blueprint
 from flask_login import login_required
 
 from syllabin.components import db
-#from syllabin.forms.dashboard import AddSubjectForm
 from syllabin.models import User, Group, Subject, Room, Professor
-#from syllabin.utils import redirect_back
 
 api_bp = Blueprint('api', __name__)
 

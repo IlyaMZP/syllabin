@@ -67,25 +67,6 @@ def register():
         return render_template('auth/register.html', form=form, groups=groups)
 
 
-@auth_bp.route('/forget-password', methods=['GET', 'POST'])
-def forget_password():
-    return redirect(url_for('main.index'))
-#    if current_user.is_authenticated:
-#        return redirect(url_for('main.index'))
-
-#    form = ForgetPasswordForm()
-#    if form.validate_on_submit():
-#        user = User.query.filter_by(email=form.email.data.lower()).first()
-#        if user:
-#            token = generate_token(user=user, operation=Operations.RESET_PASSWORD)
-#            send_reset_password_email(user=user, token=token)
-#            flash('Password reset email sent, check your inbox.', 'info')
-#            return redirect(url_for('.login'))
-#        flash('Invalid email.', 'warning')
-#        return redirect(url_for('.forget_password'))
-#    return render_template('auth/reset_password.html', form=form)
-
-
 @auth_bp.route('/logout')
 @login_required
 def logout():
