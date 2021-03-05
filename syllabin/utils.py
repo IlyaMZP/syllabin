@@ -45,6 +45,17 @@ def getCurrentDay(dt):
     return calendar.day_name[int_day_of_week]
 
 
+def getMondayForWeek(week):
+    dt = date.today()
+    if dt.month > 8:
+        start = 9
+    else:
+        start = 2
+    first = date(dt.year, start, 1)
+    base = 1 if first.isocalendar()[1] == 1 else 8
+    return first + timedelta(days=base - first.isocalendar()[2] + 7 * (week - 1))
+
+
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)

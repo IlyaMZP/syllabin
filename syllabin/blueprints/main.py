@@ -5,7 +5,7 @@ from flask import render_template, flash, redirect, url_for, current_app, \
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 
-from syllabin.utils import getDayEntries, getCurrentWeek, getFirstWeekDay
+from syllabin.utils import getDayEntries, getCurrentWeek, getFirstWeekDay, getMondayForWeek
 from syllabin.models import Announcement
 from syllabin.components import db
 #from sqlalchemy.sql.expression import func
@@ -47,15 +47,15 @@ def tomorrow():
     return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today))
 
 
-@main_bp.route('/week')
+@main_bp.route('/week/<int:week_num>')
 @login_required
-def week():
-    first_day = getFirstWeekDay(date.today() + timedelta(days=3))
+def week(week_num):
+    first_day = getMondayForWeek(week_num-1)
     colors = ["#C1A3A3", "#3F6DBD", "#43A126", "#B9BA30", "#B2508B"]
     days_entries = []
     for i in range(0,6):
         days_entries.append(getDayEntries(first_day + timedelta(days=i)))
-    return render_template('main/week.html', entries=days_entries, week=getCurrentWeek(first_day), colors=colors)
+    return render_template('main/week.html', entries=days_entries, week=week_num, colors=colors)
 
 
 @main_bp.route('/avatars/<path:filename>')
