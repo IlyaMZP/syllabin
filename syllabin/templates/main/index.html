@@ -42,7 +42,7 @@
 </table>
 </div>
 {% elif current_user.is_authenticated %}
-<h4>No lessons today.</h4>
+<h4>No lessons {% if request.url_rule.endpoint == "main.index" %}today{% else %}tomorrow{% endif %}.</h4>
 {% endif %}
 </div>
 {% if current_user.is_authenticated %}
