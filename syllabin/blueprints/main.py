@@ -1,14 +1,12 @@
 import os
 from datetime import date, timedelta
-from flask import render_template, flash, redirect, url_for, current_app, \
-    send_from_directory, request, abort, Blueprint, make_response
+from flask import render_template, flash, redirect, url_for, current_app, send_from_directory, request, abort, Blueprint, make_response
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 
 from syllabin.utils import getDayEntries, getCurrentWeek, getFirstWeekDay, getMondayForWeek
 from syllabin.models import Announcement
 from syllabin.components import db
-#from sqlalchemy.sql.expression import func
 
 main_bp = Blueprint('main', __name__)
 
