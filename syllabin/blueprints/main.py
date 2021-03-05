@@ -53,18 +53,9 @@ def week():
     first_day = getFirstWeekDay(date.today() + timedelta(days=3))
     colors = ["#C1A3A3", "#3F6DBD", "#43A126", "#B9BA30", "#B2508B"]
     days_entries = []
-    if current_user.group:
-        announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
-    else:
-        announcements = Announcement.query.all()
-    if announcements:
-        for announcement in announcements:
-            if announcement.expires.date() <= date.today():
-                db.session.delete(announcement)
-                db.session.commit()
     for i in range(0,6):
         days_entries.append(getDayEntries(first_day + timedelta(days=i)))
-    return render_template('main/week.html', announcements=announcements, entries=days_entries, week=getCurrentWeek(first_day), colors=colors)
+    return render_template('main/week.html', entries=days_entries, week=getCurrentWeek(first_day), colors=colors)
 
 
 @main_bp.route('/avatars/<path:filename>')
