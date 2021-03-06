@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, current_app, send_f
 from flask_login import login_required, current_user
 from sqlalchemy import or_
 
-from syllabin.utils import getDayEntries, getCurrentWeek, getFirstWeekDay, getMondayForWeek
+from syllabin.utils import getDayEntries, getCurrentWeek, getFirstWeekDay, getMondayForWeek, getWeekEntries
 from syllabin.models import Announcement
 from syllabin.components import db
 
@@ -49,13 +49,9 @@ def tomorrow():
 @login_required
 def week(week_num):
     first_day = getMondayForWeek(week_num-1)
-    range_string = first_day.strftime("%d/%m/%Y") + " to " + \
-        (first_day+timedelta(days=4)).strftime("%d/%m/%Y")
+    range_string = first_day.strftime("%d/%m/%Y") + " to " + (first_day+timedelta(days=4)).strftime("%d/%m/%Y")
     colors = ["#C1A3A3", "#3F6DBD", "#43A126", "#B9BA30", "#B2508B"]
-    days_entries = []
-    for i in range(0,6):
-        days_entries.append(getDayEntries(first_day + timedelta(days=i)))
-    return render_template('main/week.html', entries=days_entries, week=week_num, colors=colors, range_string=range_string)
+    return render_template('main/week.html', entries=getWeekEntries(week_num), week=week_num, colors=colors, range_string=range_string)
 
 
 @main_bp.route('/avatars/<path:filename>')
