@@ -33,24 +33,3 @@ def notify_group_thread(text, group_name):
         announcement = Announcement(message=text, group_id=group.id)
     db.session.add(announcement)
     db.session.commit()
-    for subscription in subscriptions:
-        if subscription.subscription_info:
-            try:
-	            webpush(
-		            subscription_info=json.loads(subscription.subscription_info),
-		            data=text,
-		            vapid_private_key=current_app.config['SYLLABIN_PUSH_PRIVATE_KEY'],
-		            vapid_claims={
-		            "sub": "mailto:ilya@mzp.icu",
-		            }
-	            )
-            except WebPushException as ex:
-	            print("I'm sorry, Dave, but I can't do that: {}", repr(ex))
-	            # Mozilla returns additional information in the body of the response.
-	            if ex.response and ex.response.json():
-		            extra = ex.response.json()
-		            print("Remote service replied with a {}:{}, {}",
-			            extra.code,
-			            extra.errno,
-			            extra.message
-			            )
