@@ -86,6 +86,21 @@ def getDayEntries(dt):
         user_group = None
     else:
         user_group = current_user.group
+    return getEntriesHelper(current_day, current_week, user_group)
+
+
+def getWeekEntries(week_num):
+    week_entries = []
+    if current_user.is_admin:
+        user_group = None
+    else:
+        user_group = current_user.group
+    for current_day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+        week_entries.append(getEntriesHelper(current_day, week_num, user_group))
+    return week_entries
+
+
+def getEntriesHelper(current_day, current_week, user_group):
     if user_group is None:
         today_table_entries = Timetable.query.filter_by(weekday=current_day).all()
     else:
@@ -96,26 +111,6 @@ def getDayEntries(dt):
             for lesson in today_table_entry.lesson_nums:
                 current_entries.append([today_table_entry, int(lesson)])
     return sorted(current_entries, key=lambda x: x[1])
-
-
-def getWeekEntries(week_num):
-    week_entries = []
-    if current_user.is_admin:
-        user_group = None
-    else:
-        user_group = current_user.group
-    for current_day in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
-        day_entries = []
-        if user_group is None:
-            today_table_entries = Timetable.query.filter_by(weekday=current_day).all()
-        else:
-            today_table_entries = Timetable.query.filter_by(weekday=current_day, group_id=user_group.id).all()
-        for today_table_entry in today_table_entries:
-            if today_table_entry.week_nums.count(str(week_num)):
-                for lesson in today_table_entry.lesson_nums:
-                    day_entries.append([today_table_entry, int(lesson)])
-        week_entries.append(sorted(day_entries, key=lambda x: x[1]))
-    return week_entries
 
 
 def is_safe_url(target):
