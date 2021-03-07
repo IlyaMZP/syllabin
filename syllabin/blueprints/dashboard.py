@@ -96,10 +96,7 @@ def edit_entry(entry_id):
         room = request.form['room']
         day = request.form['day']
         professor = request.form['professor']
-        try:
-            group = request.form['group']
-        except:
-            group = current_user.group.name
+        group = request.form.get('group', current_user.group.name)
         if all([weeks, lessons, day, subject, room, professor, group]):
             group_id = Group.query.filter_by(name=group).first()
             if group_id is None:
