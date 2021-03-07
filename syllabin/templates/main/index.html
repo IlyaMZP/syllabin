@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
-
 {% block content %}
 	<div class="page-header" style="padding-top:0">
         <h1 class="bd-title" id="content">Home</h1>
@@ -42,12 +41,13 @@
 </table>
 </div>
 {% elif current_user.is_authenticated %}
-<h4>No lessons {% if request.url_rule.endpoint == "main.index" %}today{% else %}tomorrow{% endif %}.</h4>
+<h4>No lessons {% if delta == 0 %}today{% else %}this day{% endif %}.</h4>
 {% endif %}
 </div>
 {% if current_user.is_authenticated %}
-{% if request.url_rule.endpoint != "main.tomorrow" %}<a href="{{ url_for('main.tomorrow') }}" class="mb-2">Lessons tomorrow</a>{% endif %}
-{% if request.url_rule.endpoint != "main.index" %}<a href="{{ url_for('main.index') }}" class="mb-2">Lessons today</a>{% endif %}
+{% if delta == 0 %}<a href="{{ url_for('main.index', delta=1) }}" class="mb-2">Lessons tomorrow</a>{% else %}
+<a href="{{ url_for('main.index') }}" class="mb-2">Lessons today</a>
+<a href="{{ url_for('main.index', delta=delta+1) }}" class="mb-2">Next day</a>{% endif %}
 <a href="{{ url_for('main.week', week_num=week) }}" class="mb-2">Week view</a>
 {% endif %}
 </div>

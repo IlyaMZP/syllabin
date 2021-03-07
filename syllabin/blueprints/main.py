@@ -13,8 +13,9 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
+    delta = request.args.get('delta', '0')
     if current_user.is_authenticated:
-        today = date.today()
+        today = date.today() + timedelta(days=int(delta))
         if current_user.group:
             announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
         else:
@@ -24,25 +25,9 @@ def index():
                 if announcement.expires.date() <= date.today():
                     db.session.delete(announcement)
                     db.session.commit()
-        return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today))
+        return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today), delta=int(delta))
     else:
         return render_template('main/index.html')
-
-
-@main_bp.route('/tomorrow')
-@login_required
-def tomorrow():
-    today = date.today() + timedelta(days=1)
-    if current_user.group:
-        announcements = Announcement.query.filter(or_(Announcement.group_id == current_user.group.id, Announcement.group_id == None)).all()
-    else:
-        announcements = Announcement.query.all()
-    if announcements:
-        for announcement in announcements:
-            if announcement.expires.date() <= date.today():
-                db.session.delete(announcement)
-                db.session.commit()
-    return render_template('main/index.html', announcements=announcements, entries=getDayEntries(today), week=getCurrentWeek(today))
 
 
 @main_bp.route('/week/<int:week_num>')
@@ -74,3 +59,8 @@ def manifest():
 @main_bp.route('/favicon.ico')
 def favicon():
     return send_from_directory('static', 'favicon.ico')
+
+
+@main_bp.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
