@@ -35,7 +35,6 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         name = form.name.data
-        email = form.email.data.lower()
         username = form.username.data
         password = form.password.data
         group_name = form.group.data
@@ -45,14 +44,14 @@ def register():
         registration_id = request.form['registration_id']
         if group_name:
             group = Group.query.filter_by(name=group_name).first()
-            user = User(name=name, email=email, username=username, group_id=group.id)
+            user = User(name=name, username=username, group_id=group.id)
         elif registration_id:
             template = User.query.filter_by(username=registration_id, active=False).first()
-            user = User(name=name, email=email, group=template.group, username=username)
+            user = User(name=name, group=template.group, username=username)
             user.set_role(template.role.name)
             db.session.delete(template)
         else:
-            user = User(name=name, email=email, username=username)
+            user = User(name=name, username=username)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
