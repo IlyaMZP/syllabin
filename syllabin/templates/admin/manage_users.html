@@ -17,7 +17,7 @@
     <li class="list-group-item">
 <img  aria-hidden="true" class="avatar-xs" style="height:82px;"
                      src="{{ url_for('main.get_avatar', filename=user.pfp_m) }}">
-{{ user.username }} - {{ user.name }}, {{ user.email }}, {{ user.group.name }}, {{ user.role.name }}
+{{ user.username }} - {{ user.name }}, {{ user.group.name }}, {{ user.role.name }}
 <br>
     <div class="btn-group float-end">
         <a type="button" href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-outline-primary">Edit</a>

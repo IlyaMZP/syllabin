@@ -6,7 +6,6 @@ from syllabin.models import User, Group
 
 def add_admin():
     admin = User(username = 'Ilya_MZP',
-            email = 'ilya@mzp.icu',
             name='[REDACTED]',
             active = True)
     admin.set_role('Admin')

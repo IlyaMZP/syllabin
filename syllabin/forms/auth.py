@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms import ValidationError
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp
+from wtforms.validators import DataRequired, Length, EqualTo, Regexp
 
 from syllabin.models import User
 
@@ -17,7 +17,6 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(1, 64)])
-    email = StringField('Email', validators=[DataRequired(), Length(1, 254), Email()])
     username = StringField('Username', validators=[DataRequired(), Length(1, 30),
                                                    Regexp('^[a-zA-Z0-9-_]*$',
                                                           message='The username should contain only a-z, A-Z and 0-9.')])
@@ -25,25 +24,4 @@ class RegisterForm(FlaskForm):
         DataRequired(), Length(8, 128), EqualTo('password2')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     group = StringField('Group', validators=[Length(0, 128)])
-    submit = SubmitField()
-
-#    def validate_email(self, field):
-#        if User.query.filter_by(email=field.data.lower()).first():
-#            raise ValidationError('The email is already in use.')
-
-#    def validate_username(self, field):
-#        if User.query.filter_by(username=field.data).first():
-#            raise ValidationError('The username is already in use.')
-
-
-class ForgetPasswordForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Length(1, 254), Email()])
-    submit = SubmitField()
-
-
-class ResetPasswordForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Length(1, 254), Email()])
-    password = PasswordField('Password', validators=[
-        DataRequired(), Length(8, 128), EqualTo('password2')])
-    password2 = PasswordField('Confirm password', validators=[DataRequired()])
     submit = SubmitField()
