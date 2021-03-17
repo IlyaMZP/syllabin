@@ -35,7 +35,7 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
     <script>
-    autocomplete(document.getElementById("group_inp"), 'https://test.mzp.icu/api/groups');
+    autocomplete(document.getElementById("group_inp"), "{{ url_for('api.groups') }}");
     </script>
 {% endblock %}
 {% block breadcrumbs %}
