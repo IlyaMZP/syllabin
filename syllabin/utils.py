@@ -4,6 +4,11 @@ import calendar
 import operator
 from datetime import datetime, timedelta, date
 
+try:
+    from urlparse import urlparse, urljoin
+except ImportError:
+    from urllib.parse import urlparse, urljoin
+
 from flask import current_app, request, url_for, redirect, flash
 from flask_login import current_user
 
@@ -102,6 +107,14 @@ def getEntriesHelper(current_day, current_week, user_group):
             for lesson in today_table_entry.lesson_nums:
                 current_entries.append([today_table_entry, int(lesson)])
     return sorted(current_entries, key=lambda x: x[1])
+
+
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
 
 
 def redirect_back(default='main.index', **kwargs):
