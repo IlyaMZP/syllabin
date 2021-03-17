@@ -7,6 +7,7 @@ if (workbox) {
     /^.*\.(?!jpg$|png$|js$|gif$|jpeg$|svg$|css$)[^.]+$/,
     new workbox.strategies.NetworkFirst({
       cacheName: 'pages',
+      networkTimeoutSeconds: 2,
       plugins: [
         new workbox.expiration.ExpirationPlugin({
           maxEntries: 60,
@@ -18,12 +19,12 @@ if (workbox) {
 
   workbox.routing.registerRoute(
     /\.(?:js|css)$/,
-    new workbox.strategies.NetworkFirst({
+    new workbox.strategies.CacheFirst({
       cacheName: 'static-resources',
       plugins: [
         new workbox.expiration.ExpirationPlugin({
           maxEntries: 60,
-          maxAgeSeconds: 1, // 1 Day
+          maxAgeSeconds: 14 * 24 * 60 * 60, // 14 Days
         }),
       ],
     }),
@@ -36,7 +37,7 @@ if (workbox) {
       plugins: [
         new workbox.expiration.ExpirationPlugin({
           maxEntries: 120,
-          maxAgeSeconds: 1, // 14 Days = 14 * 24 * 60 * 60
+          maxAgeSeconds: 14 * 24 * 60 * 60, // 14 Days = 14 * 24 * 60 * 60
         }),
       ],
     }),
