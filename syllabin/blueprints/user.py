@@ -24,7 +24,7 @@ def notification_token():
                 subscription = Subscription(subscription_info=data)
             db.session.add(subscription)
             db.session.commit()
-    return 'ok'
+    return '{ "status": "success" }'
 
 
 @user_bp.route('/settings/avatar')
