@@ -1,48 +1,11 @@
-console.log('Hello from sw.js');
+'use strict';
+importScripts('/static/js/sw-toolbox.js');
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.0/workbox-sw.js');
+toolbox.precache(["/","/static/open-iconic/font/fonts/open-iconic.woff","/static/css/bootstrap.min.css", "/static/js/app.js", "/static/js/bootstrap.bundle.min.js", "/static/js/jquery-3.5.1.min.js", "/static/open-iconic/font/css/open-iconic-bootstrap.css"]);
+toolbox.router.get('/static/*', toolbox.cacheFirst);
+toolbox.router.get('/*', toolbox.networkFirst, { networkTimeoutSeconds: 4});
 
-if (workbox) {
-  workbox.routing.registerRoute(
-    /^.*\.(?!jpg$|png$|js$|gif$|jpeg$|svg$|css$)[^.]+$/,
-    new workbox.strategies.NetworkFirst({
-      cacheName: 'pages',
-      networkTimeoutSeconds: 2,
-      plugins: [
-        new workbox.expiration.ExpirationPlugin({
-          maxEntries: 60,
-          maxAgeSeconds: 24 * 60 * 60, // 1 Day
-        }),
-      ],
-    }),
-  );
-
-  workbox.routing.registerRoute(
-    /\.(?:js|css)$/,
-    new workbox.strategies.CacheFirst({
-      cacheName: 'static-resources',
-      plugins: [
-        new workbox.expiration.ExpirationPlugin({
-          maxEntries: 60,
-          maxAgeSeconds: 14 * 24 * 60 * 60, // 14 Days
-        }),
-      ],
-    }),
-  );
-
-  workbox.routing.registerRoute(
-    /\.(?:png|gif|jpg|jpeg|svg)$/,
-    new workbox.strategies.CacheFirst({
-      cacheName: 'images',
-      plugins: [
-        new workbox.expiration.ExpirationPlugin({
-          maxEntries: 120,
-          maxAgeSeconds: 14 * 24 * 60 * 60, // 14 Days = 14 * 24 * 60 * 60
-        }),
-      ],
-    }),
-  );
-  self.addEventListener('push', event => {
+self.addEventListener('push', event => {
     console.log('[Service Worker] Push Received.');
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
     const title = "Syllabin Notification";
@@ -52,21 +15,7 @@ if (workbox) {
         badge: "/static/images/badge.webp"
     };
     event.waitUntil(self.registration.showNotification(title, options))
-  })
-  workbox.routing.registerRoute(
-    new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
-    new workbox.strategies.CacheFirst({
-      cacheName: 'googleapis',
-      plugins: [
-        new workbox.expiration.ExpirationPlugin({
-          maxEntries: 30,
-        }),
-      ],
-    }),
-  );
-
-  workbox.core.skipWaiting();
-  workbox.core.clientsClaim();
-} else {
-  console.log(`Error loading Workbox`);
-}
+});
+self.addEventListener('install', function(event) {
+  self.skipWaiting();
+});
