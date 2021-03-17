@@ -105,10 +105,3 @@
 </div>
 </div>
 {% endblock %}
-{% block scripts %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
-    <script>
-    autocomplete(document.getElementById("group_inp"), 'https://test.mzp.icu/api/groups');
-    </script>
-{% endblock %}

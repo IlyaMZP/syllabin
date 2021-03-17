@@ -26,7 +26,7 @@
     </li>
 {% else %}
     <li class="list-group-item">
-Registration Link: https://test.mzp.icu/auth/register?id={{ user.username }} - {{ user.group.name }}, {{ user.role.name }}
+Registration Link: https://{{ config['SYLLABIN_DOMAIN_NAME'] }}/auth/register?id={{ user.username }} - {{ user.group.name }}, {{ user.role.name }}
 <br>
     <div class="btn-group float-end">
         <button type="button" data-uri="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-outline-danger delete-btn">Delete</button>
