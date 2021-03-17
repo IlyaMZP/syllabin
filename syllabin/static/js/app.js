@@ -2,6 +2,9 @@ const applicationServerPublicKey = 'BNBgYM0n-NAuwjJoVCWnoxgHXpa-Fw2wZEPHOzYft6bd
 let isSubscribed = !1;
 let swRegistration = null;
 
+let deferredPrompt;
+const btnAdd = document.querySelector('#btnAdd');
+
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
@@ -94,17 +97,19 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
     })
 }
 
-
-
-
-let deferredPrompt;
-const btnAdd = document.querySelector('#btnAdd');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  console.log('beforeinstallprompt event fired');
-  e.preventDefault();
-  deferredPrompt = e;
-});
+  const fireAddToHomeScreenImpression = event => {
+    //will not work for chrome, untill fixed
+    event.userChoice.then(choiceResult => {
+      console.log(`User clicked ${choiceResult}`);
+    });
+    deferredPrompt = event;
+    //This is to prevent `beforeinstallprompt` event that triggers again on `Add` or `Cancel` click
+    window.removeEventListener(
+      "beforeinstallprompt",
+      fireAddToHomeScreenImpression
+    );
+  };
+  window.addEventListener("beforeinstallprompt", fireAddToHomeScreenImpression);
 
 btnAdd.addEventListener('click', (e) => {
   btnAdd.style.visibility = 'collapse';
