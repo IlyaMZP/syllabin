@@ -2,7 +2,7 @@
   "name": "Syllabin PWA",
   "short_name": "Syllabin PWA",
   "description": "Student manager.",
-  "theme_color": "#FAB81E",
+  "theme_color": "#4F97EB",
   "background_color": "#A9A9A9",
   "display": "standalone",
   "orientation": "portrait",
