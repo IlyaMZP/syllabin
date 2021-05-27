@@ -1,5 +1,5 @@
 # syllabin
-Student managment system
+Student managment system <br />
 This was a part of my course project at university. Written in a couple of weeks with a lot of breaks. Don't expect to see quality code.
 
 # Setup
