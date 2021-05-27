@@ -18,3 +18,6 @@ Now you can run the server <br />
 `flask run`
 
 Login won't work unless you either disable `SESSION_COOKIE_SECURE` or proxy the server with HTTPS.
+
+# Demo
+The app is deployed at [https://syllabin.mzp.icu](https://syllabin.mzp.icu)
