@@ -18,7 +18,8 @@ class BaseConfig(object):
     AVATARS_SAVE_PATH = os.path.join(SYLLABIN_UPLOAD_PATH, 'avatars')
     AVATARS_SIZE_TUPLE = (24, 100, 200)
     AVATARS_CROP_BASE_WIDTH = 320
-    SYLLABIN_PUSH_PRIVATE_KEY = "7EOmZ05femDYbUH_6sx3ySEytPlo9MW3s0YgkvJio1k"
+    # Private key for web push notifications. Public key is in the static/sw.js
+    SYLLABIN_PUSH_PRIVATE_KEY = "CHANGE_ME"
     SYLLABIN_DOMAIN_NAME = 'syllabin.mzp.icu'
 
 
