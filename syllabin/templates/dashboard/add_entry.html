@@ -93,8 +93,11 @@
     $('#group_input').select2();
     $('#dateinput_btn').click(function() {
         $('#weeks_input').select2('destroy');
+        $('#day_input').select2('destroy');
+        $('#day_input').remove();
         $('#weeks_input').replaceWith('<br><input type="date" id="weeks_input" name="date">');
         $('#dateinput_btn').remove();
+        $('label[for="day_input"]').remove();
     });
     </script>
 {% endblock %}

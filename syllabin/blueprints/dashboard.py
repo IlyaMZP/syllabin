@@ -6,7 +6,7 @@ from flask_wtf import FlaskForm
 from syllabin.components import db
 from syllabin.models import Group, Subject, Room, Professor, Timetable, User
 from syllabin.decorators import headman_required
-from syllabin.utils import getCurrentWeek
+from syllabin.utils import getCurrentWeek, getCurrentDay
 from syllabin.notifications import notify_group
 
 dash_bp = Blueprint('dash', __name__)
@@ -38,14 +38,18 @@ def add_entry():
     form = FlaskForm()
     if form.validate_on_submit():
         weeks = request.form.getlist('weeks[]')
+        try:
+            day = request.form['day']
+        except:
+            day = ""
         if not weeks:
             date_str = request.form['date']
             if date_str:
                 weeks = [ str(getCurrentWeek(datetime.datetime.strptime(date_str, '%Y-%m-%d'))) ]
+                day = getCurrentDay(datetime.datetime.strptime(date_str, '%Y-%m-%d'))
         lessons = request.form.getlist('lessons[]')
         subject = request.form['subject']
         room = request.form['room']
-        day = request.form['day']
         professor = request.form['professor']
         try:
             group = request.form['group']
