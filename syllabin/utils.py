@@ -42,7 +42,7 @@ def getCurrentDay(dt):
 
 def getMondayForWeek(week):
     dt = date.today()
-    if dt.month > 8:
+    if dt.month > 7:
         start = 9
     else:
         start = 2
@@ -67,7 +67,7 @@ def getFirstWorkingDayOfMonth(dt):
 
 
 def getCurrentWeek(dt):
-    if dt.month > 8:
+    if dt.month > 7:
         start = 9
     else:
         start = 2
